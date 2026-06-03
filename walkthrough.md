@@ -21,7 +21,7 @@ We have successfully updated the video channel pipeline to use a clean whiteboar
 * **Side-by-Side Layout**: Arranged the detail view with the concept badge and its floating emoji on the left side, and the animated stickman presenter on the right side pointing to the badge.
 
 ### 3. Expanded Topic Rotation List (`phase1_ingestion.js`)
-* **Rotation Setup**: Replaced the previous 6-topic list with the **60 visible topics** from your request (spanning Science & Nature, Psychology & Human Behavior, Art, Media & Entertainment, Mythology & Folklore, Abstract & Niche, and Earth & Materials).
+* **Rotation Setup**: Replaced the previous 6-topic list with the **100 topics** from your request (spanning Science & Nature, Psychology, Art & Entertainment, Society, Technology, Everyday Life, Language, Math & Physics, Mythology, Abstract, and Earth & Materials categories).
 * **Smart Dynamic Ingestion**: Updated `phase1_ingestion.js` to select the next topic title from the rotation, query Gemini to dynamically generate its 12 sub-concepts (with custom names, emojis, colors, and definitions), and save it.
 * **Local Fallback Generator**: Added a robust local fallback function that automatically generates placeholder concepts if no Gemini API key is available, ensuring the pipeline never crashes.
 

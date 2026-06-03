@@ -18,7 +18,7 @@
 - `[x]` Implement whiteboard light theme with dotted grid paper background (`Main.tsx`)
 - `[x]` Create vector SVG `<Stickman>` presenter component with dynamic bobbing and 4 poses (pointing, celebrating, thinking, idea) (`Main.tsx`)
 - `[x]` Update explanation detail layout to side-by-side design: badge on left, presenter on right (`Main.tsx`)
-- `[x]` Integrate the 60 non-truncated topics from user request into topic list (`phase1_ingestion.js`)
+- `[x]` Integrate the 100 topics from user request into topic list (`phase1_ingestion.js`)
 - `[x]` Update ingestion prompt to target chosen rotation topic, and code local fallback concept generator (`phase1_ingestion.js`)
 - `[x]` Execute validation run on topic "Every Type of Weather Phenomenon Explained" and verify YouTube publishing
 

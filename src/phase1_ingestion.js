@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { encodeTopicData } = require('./toon_utils');
 
-// 60-topic rotation list retrieved from user request (remaining truncated topics can be added here)
+// 100-topic rotation list retrieved from user request
 const TOPICS = [
     // Science & Nature
     { topic: "Every Type of Weather Phenomenon Explained", emoji: "⛈️" },
@@ -31,7 +31,7 @@ const TOPICS = [
     // Art, Media & Entertainment
     { topic: "Every Type of Literary Genre Explained", emoji: "📖" },
     { topic: "Every Type of Movie Trope Explained", emoji: "🎬" },
-    { topic: "Every Type of Music Genre Explained", emoji: "6 minutes! 🎵" },
+    { topic: "Every Type of Music Genre Explained", emoji: "🎵" },
     { topic: "Every Type of Visual Art Movement Explained", emoji: "🎨" },
     { topic: "Every Type of Poetry Explained", emoji: "✍️" },
     { topic: "Every Type of Story Arc Explained", emoji: "📉" },
@@ -39,6 +39,56 @@ const TOPICS = [
     { topic: "Every Type of Video Game Genre Explained", emoji: "🎮" },
     { topic: "Every Type of Camera Shot Explained", emoji: "📷" },
     { topic: "Every Type of Villain Explained", emoji: "🦹" },
+
+    // Society, History & Culture
+    { topic: "Every Type of Government System Explained", emoji: "🏛️" },
+    { topic: "Every Type of Economic System Explained", emoji: "💰" },
+    { topic: "Every Type of Logical Fallacy Explained", emoji: "🚫" },
+    { topic: "Every Type of Historical Era Explained", emoji: "⏳" },
+    { topic: "Every Type of Internet Troll Explained", emoji: "🧌" },
+    { topic: "Every Type of Social Media Platform Explained", emoji: "📱" },
+    { topic: "Every Type of Generation Explained", emoji: "👶" },
+    { topic: "Every Type of Currency Explained", emoji: "💵" },
+    { topic: "Every Type of Conspiracy Theory Explained", emoji: "👽" },
+    { topic: "Every Type of Religion Explained", emoji: "🕊️" },
+
+    // Technology & Engineering
+    { topic: "Every Type of Renewable Energy Explained", emoji: "☀️" },
+    { topic: "Every Type of Computer Virus Explained", emoji: "🦠" },
+    { topic: "Every Type of Artificial Intelligence Explained", emoji: "🤖" },
+    { topic: "Every Type of Bridge Architecture Explained", emoji: "🌉" },
+    { topic: "Every Type of Coding Language Explained", emoji: "💻" },
+    { topic: "Every Type of Engine Explained", emoji: "🚗" },
+    { topic: "Every Type of Network Topology Explained", emoji: "🌐" },
+    { topic: "Every Type of Data Storage Explained", emoji: "💾" },
+    { topic: "Every Type of Rocket Explained", emoji: "🚀" },
+    { topic: "Every Type of Clock Explained", emoji: "⏱️" },
+
+    // Everyday Life & Hobbies
+    { topic: "Every Type of Coffee Drink Explained", emoji: "☕" },
+    { topic: "Every Type of Diet Explained", emoji: "🥗" },
+    { topic: "Every Type of Workout Explained", emoji: "🏋️" },
+    { topic: "Every Type of Bread Explained", emoji: "🍞" },
+    { topic: "Every Type of Cheese Explained", emoji: "🧀" },
+    { topic: "Every Type of Tea Explained", emoji: "🍵" },
+    { topic: "Every Type of House Plant Explained", emoji: "🪴" },
+    { topic: "Every Type of Sibling Dynamic Explained", emoji: "👨‍👩‍👧‍👦" },
+    { topic: "Every Type of Co-Worker Explained", emoji: "👔" },
+    { topic: "Every Type of Commuter Explained", emoji: "🚆" },
+
+    // Language & Communication
+    { topic: "Every Type of Figure of Speech Explained", emoji: "🗣️" },
+    { topic: "Every Type of Punctuation Mark Explained", emoji: "⁉️" },
+    { topic: "Every Type of Accent Explained", emoji: "🗺️" },
+    { topic: "Every Type of Love Language Explained", emoji: "❤️" },
+    { topic: "Every Type of Nonverbal Communication Explained", emoji: "🤫" },
+
+    // Math & Physics
+    { topic: "Every Type of Number Explained", emoji: "🔢" },
+    { topic: "Every Type of Geometric Shape Explained", emoji: "🔺" },
+    { topic: "Every Type of Physics Law Explained", emoji: "🍎" },
+    { topic: "Every Type of Dimension Explained", emoji: "🌌" },
+    { topic: "Every Type of Force Explained", emoji: "🧲" },
 
     // Mythology & Folklore
     { topic: "Every Type of Mythological Creature Explained", emoji: "🐉" },
