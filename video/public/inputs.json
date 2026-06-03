@@ -1,0 +1,1361 @@
+{
+  "topic": "Every Type of Weather Phenomenon Explained",
+  "items": [
+    {
+      "name": "Concept 1",
+      "start": 8.52,
+      "end": 15.72,
+      "emoji": "💡",
+      "color": "#ef4444",
+      "description": "Number 1, Concept 1. This is a placeholder explainer about concept 1 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 2",
+      "start": 16.28,
+      "end": 23.04,
+      "emoji": "⚡",
+      "color": "#3b82f6",
+      "description": "Number 2, Concept 2. This is a placeholder explainer about concept 2 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 3",
+      "start": 31.5,
+      "end": 38.6,
+      "emoji": "🔍",
+      "color": "#10b981",
+      "description": "Number 3, Concept 3. This is a placeholder explainer about concept 3 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 4",
+      "start": 39.5,
+      "end": 46.52,
+      "emoji": "🧠",
+      "color": "#f59e0b",
+      "description": "Number 4, Concept 4. This is a placeholder explainer about concept 4 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 5",
+      "start": 55.12,
+      "end": 62.58,
+      "emoji": "🎯",
+      "color": "#8b5cf6",
+      "description": "Number 5, Concept 5. This is a placeholder explainer about concept 5 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 6",
+      "start": 63.1,
+      "end": 70.08,
+      "emoji": "🌟",
+      "color": "#ec4899",
+      "description": "Number 6, Concept 6. This is a placeholder explainer about concept 6 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 7",
+      "start": 70.64,
+      "end": 77.84,
+      "emoji": "🔮",
+      "color": "#06b6d4",
+      "description": "Number 7, Concept 7. This is a placeholder explainer about concept 7 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 8",
+      "start": 78.28,
+      "end": 85.34,
+      "emoji": "🛡️",
+      "color": "#f97316",
+      "description": "Number 8, Concept 8. This is a placeholder explainer about concept 8 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 9",
+      "start": 85.82,
+      "end": 93.76,
+      "emoji": "🌍",
+      "color": "#14b8a6",
+      "description": "Number 9, Concept 9. This is a placeholder explainer about concept 9 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 10",
+      "start": 94.28,
+      "end": 101.92,
+      "emoji": "⚙️",
+      "color": "#111827",
+      "description": "Number 10, Concept 10. This is a placeholder explainer about concept 10 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 11",
+      "start": 102.38,
+      "end": 110.38,
+      "emoji": "🧪",
+      "color": "#d946ef",
+      "description": "Number 11, Concept 11. This is a placeholder explainer about concept 11 of Every Type of Weather Phenomenon Explained."
+    },
+    {
+      "name": "Concept 12",
+      "start": 102.38,
+      "end": 110.38,
+      "emoji": "📊",
+      "color": "#eab308",
+      "description": "Number 12, Concept 12. This is a placeholder explainer about concept 12 of Every Type of Weather Phenomenon Explained."
+    }
+  ],
+  "audioUrl": "/voice.mp3",
+  "bgmUrl": "/bgm.mp3",
+  "sfxUrl": "/click.mp3",
+  "words": [
+    {
+      "word": "Welcome.",
+      "start": 0.14,
+      "end": 0.58
+    },
+    {
+      "word": "Today",
+      "start": 1.04,
+      "end": 1.36
+    },
+    {
+      "word": "we",
+      "start": 1.36,
+      "end": 1.64
+    },
+    {
+      "word": "are",
+      "start": 1.64,
+      "end": 1.8
+    },
+    {
+      "word": "explaining",
+      "start": 1.8,
+      "end": 2.28
+    },
+    {
+      "word": "every",
+      "start": 2.28,
+      "end": 2.72
+    },
+    {
+      "word": "single",
+      "start": 2.72,
+      "end": 3.08
+    },
+    {
+      "word": "concept",
+      "start": 3.08,
+      "end": 3.62
+    },
+    {
+      "word": "of",
+      "start": 3.62,
+      "end": 4.24
+    },
+    {
+      "word": "every",
+      "start": 4.64,
+      "end": 4.94
+    },
+    {
+      "word": "type",
+      "start": 4.94,
+      "end": 5.28
+    },
+    {
+      "word": "of",
+      "start": 5.28,
+      "end": 5.46
+    },
+    {
+      "word": "weather",
+      "start": 5.46,
+      "end": 5.72
+    },
+    {
+      "word": "phenomenon",
+      "start": 5.72,
+      "end": 6.2
+    },
+    {
+      "word": "explained.",
+      "start": 6.2,
+      "end": 6.84
+    },
+    {
+      "word": "Let's",
+      "start": 7.44,
+      "end": 7.58
+    },
+    {
+      "word": "begin.",
+      "start": 7.58,
+      "end": 7.94
+    },
+    {
+      "word": "Number",
+      "start": 8.52,
+      "end": 8.78
+    },
+    {
+      "word": "one",
+      "start": 8.78,
+      "end": 9.12
+    },
+    {
+      "word": "concept",
+      "start": 9.44,
+      "end": 9.88
+    },
+    {
+      "word": "one.",
+      "start": 9.88,
+      "end": 10.28
+    },
+    {
+      "word": "This",
+      "start": 10.66,
+      "end": 10.86
+    },
+    {
+      "word": "is",
+      "start": 10.86,
+      "end": 11.06
+    },
+    {
+      "word": "a",
+      "start": 11.06,
+      "end": 11.2
+    },
+    {
+      "word": "placeholder",
+      "start": 11.2,
+      "end": 11.56
+    },
+    {
+      "word": "explainer",
+      "start": 11.56,
+      "end": 12.28
+    },
+    {
+      "word": "about",
+      "start": 12.28,
+      "end": 12.54
+    },
+    {
+      "word": "concept",
+      "start": 12.54,
+      "end": 13.08
+    },
+    {
+      "word": "one",
+      "start": 13.08,
+      "end": 13.38
+    },
+    {
+      "word": "of",
+      "start": 13.38,
+      "end": 13.6
+    },
+    {
+      "word": "every",
+      "start": 13.6,
+      "end": 13.96
+    },
+    {
+      "word": "type",
+      "start": 13.96,
+      "end": 14.2
+    },
+    {
+      "word": "of",
+      "start": 14.2,
+      "end": 14.44
+    },
+    {
+      "word": "weather",
+      "start": 14.44,
+      "end": 14.64
+    },
+    {
+      "word": "phenomenon",
+      "start": 14.64,
+      "end": 15.14
+    },
+    {
+      "word": "explained.",
+      "start": 15.14,
+      "end": 15.72
+    },
+    {
+      "word": "Number",
+      "start": 16.28,
+      "end": 16.5
+    },
+    {
+      "word": "two",
+      "start": 16.5,
+      "end": 16.8
+    },
+    {
+      "word": "concept",
+      "start": 17.1,
+      "end": 17.24
+    },
+    {
+      "word": "two.",
+      "start": 17.24,
+      "end": 17.68
+    },
+    {
+      "word": "This",
+      "start": 17.98,
+      "end": 18.2
+    },
+    {
+      "word": "is",
+      "start": 18.2,
+      "end": 18.42
+    },
+    {
+      "word": "a",
+      "start": 18.42,
+      "end": 18.48
+    },
+    {
+      "word": "placeholder",
+      "start": 18.48,
+      "end": 18.96
+    },
+    {
+      "word": "explainer",
+      "start": 19.5,
+      "end": 19.64
+    },
+    {
+      "word": "about",
+      "start": 19.64,
+      "end": 19.86
+    },
+    {
+      "word": "concept",
+      "start": 19.86,
+      "end": 20.3
+    },
+    {
+      "word": "two",
+      "start": 20.3,
+      "end": 20.72
+    },
+    {
+      "word": "of",
+      "start": 20.72,
+      "end": 20.98
+    },
+    {
+      "word": "every",
+      "start": 20.98,
+      "end": 21.32
+    },
+    {
+      "word": "type",
+      "start": 21.32,
+      "end": 21.54
+    },
+    {
+      "word": "of",
+      "start": 21.54,
+      "end": 21.76
+    },
+    {
+      "word": "weather",
+      "start": 21.76,
+      "end": 21.98
+    },
+    {
+      "word": "phenomenon",
+      "start": 21.98,
+      "end": 22.44
+    },
+    {
+      "word": "explained.",
+      "start": 22.44,
+      "end": 23.04
+    },
+    {
+      "word": "Number",
+      "start": 23.54,
+      "end": 23.8
+    },
+    {
+      "word": "three",
+      "start": 23.8,
+      "end": 24.18
+    },
+    {
+      "word": "concept",
+      "start": 24.34,
+      "end": 24.66
+    },
+    {
+      "word": "three.",
+      "start": 24.66,
+      "end": 25.18
+    },
+    {
+      "word": "This",
+      "start": 25.56,
+      "end": 25.74
+    },
+    {
+      "word": "is",
+      "start": 25.74,
+      "end": 25.96
+    },
+    {
+      "word": "a",
+      "start": 25.96,
+      "end": 26.08
+    },
+    {
+      "word": "placeholder",
+      "start": 26.08,
+      "end": 26.5
+    },
+    {
+      "word": "three",
+      "start": 28.3,
+      "end": 28.32
+    },
+    {
+      "word": "of",
+      "start": 28.32,
+      "end": 28.5
+    },
+    {
+      "word": "every",
+      "start": 28.5,
+      "end": 28.94
+    },
+    {
+      "word": "type",
+      "start": 28.94,
+      "end": 29.16
+    },
+    {
+      "word": "of",
+      "start": 29.16,
+      "end": 29.4
+    },
+    {
+      "word": "weather",
+      "start": 29.4,
+      "end": 29.6
+    },
+    {
+      "word": "phenomenon",
+      "start": 29.6,
+      "end": 30.1
+    },
+    {
+      "word": "explained.",
+      "start": 30.1,
+      "end": 30.68
+    },
+    {
+      "word": "Number",
+      "start": 31.5,
+      "end": 31.52
+    },
+    {
+      "word": "four",
+      "start": 31.52,
+      "end": 31.96
+    },
+    {
+      "word": "concept",
+      "start": 32.4,
+      "end": 32.68
+    },
+    {
+      "word": "four.",
+      "start": 32.68,
+      "end": 33.12
+    },
+    {
+      "word": "This",
+      "start": 33.52,
+      "end": 33.68
+    },
+    {
+      "word": "is",
+      "start": 33.68,
+      "end": 33.9
+    },
+    {
+      "word": "a",
+      "start": 33.9,
+      "end": 34
+    },
+    {
+      "word": "placeholder",
+      "start": 34,
+      "end": 34.44
+    },
+    {
+      "word": "explainer",
+      "start": 35.5,
+      "end": 35.52
+    },
+    {
+      "word": "about",
+      "start": 35.52,
+      "end": 35.54
+    },
+    {
+      "word": "concept",
+      "start": 35.54,
+      "end": 35.84
+    },
+    {
+      "word": "four",
+      "start": 35.84,
+      "end": 36.24
+    },
+    {
+      "word": "of",
+      "start": 36.24,
+      "end": 36.52
+    },
+    {
+      "word": "every",
+      "start": 36.52,
+      "end": 36.84
+    },
+    {
+      "word": "type",
+      "start": 36.84,
+      "end": 37.1
+    },
+    {
+      "word": "of",
+      "start": 37.1,
+      "end": 37.3
+    },
+    {
+      "word": "weather",
+      "start": 37.3,
+      "end": 37.52
+    },
+    {
+      "word": "phenomenon",
+      "start": 37.52,
+      "end": 38
+    },
+    {
+      "word": "explained.",
+      "start": 38,
+      "end": 38.6
+    },
+    {
+      "word": "Number",
+      "start": 39.5,
+      "end": 39.52
+    },
+    {
+      "word": "five",
+      "start": 39.52,
+      "end": 39.84
+    },
+    {
+      "word": "concept",
+      "start": 40.18,
+      "end": 40.5
+    },
+    {
+      "word": "five.",
+      "start": 40.5,
+      "end": 40.98
+    },
+    {
+      "word": "This",
+      "start": 41.42,
+      "end": 41.58
+    },
+    {
+      "word": "is",
+      "start": 41.58,
+      "end": 41.82
+    },
+    {
+      "word": "a",
+      "start": 41.82,
+      "end": 41.88
+    },
+    {
+      "word": "placeholder",
+      "start": 41.88,
+      "end": 42.36
+    },
+    {
+      "word": "explainer",
+      "start": 42.36,
+      "end": 42.98
+    },
+    {
+      "word": "about",
+      "start": 43.5,
+      "end": 43.52
+    },
+    {
+      "word": "concept",
+      "start": 43.52,
+      "end": 43.78
+    },
+    {
+      "word": "five",
+      "start": 43.78,
+      "end": 44.2
+    },
+    {
+      "word": "of",
+      "start": 44.2,
+      "end": 44.52
+    },
+    {
+      "word": "every",
+      "start": 44.52,
+      "end": 44.8
+    },
+    {
+      "word": "type",
+      "start": 44.8,
+      "end": 45.02
+    },
+    {
+      "word": "of",
+      "start": 45.02,
+      "end": 45.28
+    },
+    {
+      "word": "weather",
+      "start": 45.28,
+      "end": 45.46
+    },
+    {
+      "word": "phenomenon",
+      "start": 45.46,
+      "end": 45.94
+    },
+    {
+      "word": "explained.",
+      "start": 45.94,
+      "end": 46.52
+    },
+    {
+      "word": "Number",
+      "start": 47.5,
+      "end": 47.52
+    },
+    {
+      "word": "six",
+      "start": 47.52,
+      "end": 47.88
+    },
+    {
+      "word": "concept",
+      "start": 48.34,
+      "end": 48.58
+    },
+    {
+      "word": "six.",
+      "start": 48.58,
+      "end": 49.1
+    },
+    {
+      "word": "This",
+      "start": 49.5,
+      "end": 49.66
+    },
+    {
+      "word": "is",
+      "start": 49.66,
+      "end": 49.9
+    },
+    {
+      "word": "a",
+      "start": 49.9,
+      "end": 49.96
+    },
+    {
+      "word": "placeholder",
+      "start": 49.96,
+      "end": 50.44
+    },
+    {
+      "word": "explainer",
+      "start": 50.44,
+      "end": 51.08
+    },
+    {
+      "word": "about",
+      "start": 51.08,
+      "end": 51.34
+    },
+    {
+      "word": "concept",
+      "start": 51.34,
+      "end": 51.86
+    },
+    {
+      "word": "six",
+      "start": 51.86,
+      "end": 52.28
+    },
+    {
+      "word": "explainer.",
+      "start": 54,
+      "end": 55.12
+    },
+    {
+      "word": "Number",
+      "start": 55.12,
+      "end": 55.44
+    },
+    {
+      "word": "seven",
+      "start": 55.44,
+      "end": 55.86
+    },
+    {
+      "word": "concept",
+      "start": 56.2,
+      "end": 56.44
+    },
+    {
+      "word": "seven.",
+      "start": 56.44,
+      "end": 56.88
+    },
+    {
+      "word": "This",
+      "start": 57.48,
+      "end": 57.54
+    },
+    {
+      "word": "is",
+      "start": 57.54,
+      "end": 57.74
+    },
+    {
+      "word": "a",
+      "start": 57.74,
+      "end": 57.84
+    },
+    {
+      "word": "placeholder",
+      "start": 57.84,
+      "end": 58.26
+    },
+    {
+      "word": "explainer",
+      "start": 58.26,
+      "end": 59
+    },
+    {
+      "word": "about",
+      "start": 59,
+      "end": 59.28
+    },
+    {
+      "word": "concept",
+      "start": 59.28,
+      "end": 59.74
+    },
+    {
+      "word": "seven",
+      "start": 59.74,
+      "end": 60.2
+    },
+    {
+      "word": "of",
+      "start": 60.2,
+      "end": 60.54
+    },
+    {
+      "word": "every",
+      "start": 60.54,
+      "end": 60.84
+    },
+    {
+      "word": "type",
+      "start": 60.84,
+      "end": 61.06
+    },
+    {
+      "word": "of",
+      "start": 61.06,
+      "end": 61.3
+    },
+    {
+      "word": "weather",
+      "start": 61.3,
+      "end": 61.5
+    },
+    {
+      "word": "phenomenon",
+      "start": 61.5,
+      "end": 62
+    },
+    {
+      "word": "explained.",
+      "start": 62.02,
+      "end": 62.58
+    },
+    {
+      "word": "Number",
+      "start": 63.1,
+      "end": 63.42
+    },
+    {
+      "word": "eight",
+      "start": 63.42,
+      "end": 63.74
+    },
+    {
+      "word": "concept",
+      "start": 63.96,
+      "end": 64.2
+    },
+    {
+      "word": "eight.",
+      "start": 64.2,
+      "end": 64.58
+    },
+    {
+      "word": "This",
+      "start": 64.94,
+      "end": 65.14
+    },
+    {
+      "word": "is",
+      "start": 65.14,
+      "end": 65.28
+    },
+    {
+      "word": "a",
+      "start": 65.28,
+      "end": 65.46
+    },
+    {
+      "word": "placeholder",
+      "start": 65.46,
+      "end": 65.89
+    },
+    {
+      "word": "explainer",
+      "start": 65.89,
+      "end": 66.58
+    },
+    {
+      "word": "about",
+      "start": 66.58,
+      "end": 66.86
+    },
+    {
+      "word": "concept",
+      "start": 66.86,
+      "end": 67.34
+    },
+    {
+      "word": "eight",
+      "start": 67.34,
+      "end": 67.7
+    },
+    {
+      "word": "of",
+      "start": 67.7,
+      "end": 67.88
+    },
+    {
+      "word": "every",
+      "start": 67.88,
+      "end": 68.32
+    },
+    {
+      "word": "type",
+      "start": 68.32,
+      "end": 68.56
+    },
+    {
+      "word": "of",
+      "start": 68.56,
+      "end": 68.8
+    },
+    {
+      "word": "weather",
+      "start": 68.8,
+      "end": 68.98
+    },
+    {
+      "word": "phenomenon",
+      "start": 68.98,
+      "end": 69.46
+    },
+    {
+      "word": "explained.",
+      "start": 69.5,
+      "end": 70.08
+    },
+    {
+      "word": "Number",
+      "start": 70.64,
+      "end": 70.82
+    },
+    {
+      "word": "nine",
+      "start": 70.82,
+      "end": 71.2
+    },
+    {
+      "word": "concept",
+      "start": 71.44,
+      "end": 71.76
+    },
+    {
+      "word": "nine.",
+      "start": 71.76,
+      "end": 72.22
+    },
+    {
+      "word": "This",
+      "start": 72.66,
+      "end": 72.82
+    },
+    {
+      "word": "is",
+      "start": 72.82,
+      "end": 73.06
+    },
+    {
+      "word": "a",
+      "start": 73.06,
+      "end": 73.14
+    },
+    {
+      "word": "placeholder",
+      "start": 73.14,
+      "end": 73.55
+    },
+    {
+      "word": "explainer",
+      "start": 73.55,
+      "end": 74.28
+    },
+    {
+      "word": "about",
+      "start": 74.28,
+      "end": 74.54
+    },
+    {
+      "word": "concept",
+      "start": 74.54,
+      "end": 75.02
+    },
+    {
+      "word": "nine",
+      "start": 75.02,
+      "end": 75.48
+    },
+    {
+      "word": "of",
+      "start": 75.48,
+      "end": 75.82
+    },
+    {
+      "word": "every",
+      "start": 75.82,
+      "end": 76.08
+    },
+    {
+      "word": "type",
+      "start": 76.08,
+      "end": 76.32
+    },
+    {
+      "word": "of",
+      "start": 76.32,
+      "end": 76.52
+    },
+    {
+      "word": "weather",
+      "start": 76.52,
+      "end": 76.76
+    },
+    {
+      "word": "phenomenon",
+      "start": 76.76,
+      "end": 77.22
+    },
+    {
+      "word": "explained.",
+      "start": 77.22,
+      "end": 77.84
+    },
+    {
+      "word": "Number",
+      "start": 78.28,
+      "end": 78.62
+    },
+    {
+      "word": "ten",
+      "start": 78.62,
+      "end": 78.96
+    },
+    {
+      "word": "concept",
+      "start": 79.2,
+      "end": 79.48
+    },
+    {
+      "word": "ten.",
+      "start": 79.48,
+      "end": 79.86
+    },
+    {
+      "word": "This",
+      "start": 80.28,
+      "end": 80.46
+    },
+    {
+      "word": "is",
+      "start": 80.46,
+      "end": 80.6
+    },
+    {
+      "word": "a",
+      "start": 80.6,
+      "end": 80.76
+    },
+    {
+      "word": "placeholder",
+      "start": 80.76,
+      "end": 81.22
+    },
+    {
+      "word": "explainer",
+      "start": 81.22,
+      "end": 81.86
+    },
+    {
+      "word": "about",
+      "start": 82,
+      "end": 82.22
+    },
+    {
+      "word": "concept",
+      "start": 82.22,
+      "end": 82.66
+    },
+    {
+      "word": "ten",
+      "start": 82.66,
+      "end": 83
+    },
+    {
+      "word": "of",
+      "start": 83,
+      "end": 83.18
+    },
+    {
+      "word": "every",
+      "start": 83.18,
+      "end": 83.62
+    },
+    {
+      "word": "type",
+      "start": 83.62,
+      "end": 83.84
+    },
+    {
+      "word": "of",
+      "start": 83.84,
+      "end": 84.04
+    },
+    {
+      "word": "weather",
+      "start": 84.04,
+      "end": 84.28
+    },
+    {
+      "word": "phenomenon",
+      "start": 84.28,
+      "end": 84.76
+    },
+    {
+      "word": "explained.",
+      "start": 84.76,
+      "end": 85.34
+    },
+    {
+      "word": "Number",
+      "start": 85.82,
+      "end": 86.18
+    },
+    {
+      "word": "eleven",
+      "start": 86.18,
+      "end": 86.68
+    },
+    {
+      "word": "concept",
+      "start": 87.04,
+      "end": 87.44
+    },
+    {
+      "word": "eleven.",
+      "start": 87.44,
+      "end": 87.88
+    },
+    {
+      "word": "This",
+      "start": 88.44,
+      "end": 88.6
+    },
+    {
+      "word": "is",
+      "start": 88.6,
+      "end": 88.8
+    },
+    {
+      "word": "a",
+      "start": 88.8,
+      "end": 88.92
+    },
+    {
+      "word": "placeholder",
+      "start": 88.92,
+      "end": 89.4
+    },
+    {
+      "word": "explainer",
+      "start": 89.4,
+      "end": 90.07
+    },
+    {
+      "word": "about",
+      "start": 90.07,
+      "end": 90.44
+    },
+    {
+      "word": "concept",
+      "start": 90.44,
+      "end": 90.88
+    },
+    {
+      "word": "eleven",
+      "start": 90.88,
+      "end": 91.36
+    },
+    {
+      "word": "of",
+      "start": 91.36,
+      "end": 91.58
+    },
+    {
+      "word": "every",
+      "start": 91.58,
+      "end": 92.02
+    },
+    {
+      "word": "type",
+      "start": 92.02,
+      "end": 92.26
+    },
+    {
+      "word": "of",
+      "start": 92.26,
+      "end": 92.46
+    },
+    {
+      "word": "weather",
+      "start": 92.46,
+      "end": 92.68
+    },
+    {
+      "word": "phenomenon",
+      "start": 92.68,
+      "end": 93.18
+    },
+    {
+      "word": "explained.",
+      "start": 93.18,
+      "end": 93.76
+    },
+    {
+      "word": "Number",
+      "start": 94.28,
+      "end": 94.54
+    },
+    {
+      "word": "twelve",
+      "start": 94.54,
+      "end": 95.02
+    },
+    {
+      "word": "concept",
+      "start": 95.4,
+      "end": 95.82
+    },
+    {
+      "word": "twelve.",
+      "start": 95.82,
+      "end": 96.32
+    },
+    {
+      "word": "This",
+      "start": 96.78,
+      "end": 96.94
+    },
+    {
+      "word": "is",
+      "start": 96.94,
+      "end": 97.08
+    },
+    {
+      "word": "a",
+      "start": 97.08,
+      "end": 97.24
+    },
+    {
+      "word": "placeholder",
+      "start": 97.24,
+      "end": 97.66
+    },
+    {
+      "word": "explainer",
+      "start": 97.66,
+      "end": 98.4
+    },
+    {
+      "word": "about",
+      "start": 98.4,
+      "end": 98.64
+    },
+    {
+      "word": "concept",
+      "start": 98.64,
+      "end": 99.12
+    },
+    {
+      "word": "twelve",
+      "start": 99.12,
+      "end": 99.54
+    },
+    {
+      "word": "of",
+      "start": 99.54,
+      "end": 99.76
+    },
+    {
+      "word": "every",
+      "start": 99.76,
+      "end": 100.2
+    },
+    {
+      "word": "type",
+      "start": 100.2,
+      "end": 100.42
+    },
+    {
+      "word": "of",
+      "start": 100.42,
+      "end": 100.68
+    },
+    {
+      "word": "weather",
+      "start": 100.68,
+      "end": 100.86
+    },
+    {
+      "word": "phenomenon",
+      "start": 100.86,
+      "end": 101.34
+    },
+    {
+      "word": "explained",
+      "start": 101.34,
+      "end": 101.92
+    },
+    {
+      "word": "which",
+      "start": 102.38,
+      "end": 102.62
+    },
+    {
+      "word": "one",
+      "start": 102.62,
+      "end": 102.9
+    },
+    {
+      "word": "of",
+      "start": 102.9,
+      "end": 102.98
+    },
+    {
+      "word": "these",
+      "start": 102.98,
+      "end": 103.1
+    },
+    {
+      "word": "concepts",
+      "start": 103.1,
+      "end": 103.64
+    },
+    {
+      "word": "was",
+      "start": 103.64,
+      "end": 103.96
+    },
+    {
+      "word": "your",
+      "start": 103.96,
+      "end": 104.2
+    },
+    {
+      "word": "favorite.",
+      "start": 104.2,
+      "end": 104.66
+    },
+    {
+      "word": "Let",
+      "start": 104.86,
+      "end": 105.24
+    },
+    {
+      "word": "us",
+      "start": 105.24,
+      "end": 105.44
+    },
+    {
+      "word": "know",
+      "start": 105.44,
+      "end": 105.78
+    },
+    {
+      "word": "in",
+      "start": 105.78,
+      "end": 106
+    },
+    {
+      "word": "the",
+      "start": 106,
+      "end": 106.13
+    },
+    {
+      "word": "comments",
+      "start": 106.13,
+      "end": 106.54
+    },
+    {
+      "word": "below.",
+      "start": 106.54,
+      "end": 107
+    }
+  ]
+}

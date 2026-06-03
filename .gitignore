@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+node-env/
+__pycache__/
+*.pyc
+
+# Local Config / Credentials
+.env
+.env.local
+
+# Build/Render Outputs and Temporary Assets
+final_video.mp4
+voice.mp3
+timing.toon
+property_data.toon
+topic_data.toon
+script.json
+
+# OS files
+.DS_Store
+Thumbs.db
