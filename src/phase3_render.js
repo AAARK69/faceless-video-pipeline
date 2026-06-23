@@ -72,16 +72,60 @@ function run() {
         }
     }
     
-    // 4. Combine concept timings with concept details (emoji, color, description)
+    // 4. Combine concept timings with concept details (emoji, color, description) and align scenes
     const items = timingData.concepts.map(tc => {
         const matchingConcept = topicData.concepts.find(c => c.name.toLowerCase() === tc.name.toLowerCase()) || {};
+        let description = matchingConcept.description || "";
+        let scenes = [];
+        
+        try {
+            const parsed = JSON.parse(description);
+            if (Array.isArray(parsed)) {
+                scenes = parsed;
+                description = scenes.map(s => s.text).join(' ');
+            }
+        } catch (e) {
+            // Not a JSON description
+        }
+        
+        if (scenes.length > 0) {
+            // Grab words matching this concept's time range
+            const conceptWords = timingData.words.filter(w => w.start >= tc.start - 0.2 && w.end <= tc.end + 0.2);
+            
+            let wordCursor = 0;
+            scenes = scenes.map((scene, idx) => {
+                const sceneWordCount = scene.text.split(/\s+/).filter(Boolean).length;
+                const matchedWords = conceptWords.slice(wordCursor, wordCursor + sceneWordCount);
+                wordCursor += sceneWordCount;
+                
+                let start = tc.start;
+                let end = tc.end;
+                if (matchedWords.length > 0) {
+                    start = matchedWords[0].start;
+                    end = matchedWords[matchedWords.length - 1].end;
+                }
+                
+                // Clamp boundaries
+                if (idx === 0) start = tc.start;
+                if (idx === scenes.length - 1) end = tc.end;
+                
+                return {
+                    text: scene.text,
+                    sketch: scene.sketch,
+                    start,
+                    end
+                };
+            });
+        }
+        
         return {
             name: tc.name,
             start: tc.start,
             end: tc.end,
             emoji: matchingConcept.emoji || "💡",
             color: matchingConcept.color || "#3b82f6",
-            description: matchingConcept.description || ""
+            description: description,
+            scenes: scenes
         };
     });
     
@@ -103,8 +147,14 @@ function run() {
     console.log("[Phase 3 Render] Executing Remotion headless render...");
     const outputVideoPath = path.join(rootDir, 'final_video.mp4');
     
+    // Determine dynamic concurrency based on CPU cores for maximum efficiency
+    const os = require('os');
+    const cpuCount = os.cpus().length || 4;
+    // Bound concurrency to 4 to prevent Puppeteer memory pressure / timeout crashes on high-core machines
+    const concurrency = Math.min(4, Math.max(1, Math.floor(cpuCount / 2)));
+    
     // Execute remotion render using the local Node binary path
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames}`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=120000`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {

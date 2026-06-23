@@ -26,7 +26,24 @@ export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
   words: []
 };
 
-export const DURATION_IN_FRAMES = 5400; // 3-minute default (can be updated dynamically)
+export const DURATION_IN_FRAMES = 20000; // 11-minute default (can be updated dynamically)
 export const VIDEO_WIDTH = 1920;
 export const VIDEO_HEIGHT = 1080;
 export const VIDEO_FPS = 30;
+
+export const THUMBNAIL_WIDTH = 1280;
+export const THUMBNAIL_HEIGHT = 720;
+
+export const ThumbnailProps = z.object({
+  topic: z.string(),
+  emoji: z.string(),
+  accentColor: z.string(),
+  conceptNames: z.array(z.string()),
+});
+
+export const defaultThumbnailProps: z.infer<typeof ThumbnailProps> = {
+  topic: "Every Type of Humor Explained",
+  emoji: "😂",
+  accentColor: "#6b21a8",
+  conceptNames: ["Sarcasm", "Irony", "Slapstick", "Satire"],
+};

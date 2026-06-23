@@ -19,3 +19,7 @@ script.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Scratch/Temporary testing directories
+scratch/
+

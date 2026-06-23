@@ -7,17 +7,21 @@ import {
   getInputProps,
   staticFile,
   interpolate,
-  Sequence
+  Sequence,
+  Easing
 } from "remotion";
-import { loadFont } from "@remotion/google-fonts/ComicNeue";
-
-const { fontFamily } = loadFont("normal", {
-  subsets: ["latin"],
-  weights: ["400", "700"],
-});
+// Removed Google Font loading due to sandbox network restrictions
+const fontFamily = '"Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif';
 
 interface Word {
   word: string;
+  start: number;
+  end: number;
+}
+
+interface Scene {
+  text: string;
+  sketch: string;
   start: number;
   end: number;
 }
@@ -29,6 +33,7 @@ interface Concept {
   start: number;
   end: number;
   description: string;
+  scenes?: Scene[];
 }
 
 interface MainProps {
@@ -56,12 +61,23 @@ const TRANSITION_TOTAL = GALLERY_HOLD + ZOOM_DURATION;
 // ---------------------------------------------------------
 // Presenter Stickman Component (Light theme / Hand-drawn style)
 // ---------------------------------------------------------
-const Stickman: React.FC<{ frame: number; poseIndex: number; activeColor: string }> = ({
+const Stickman: React.FC<{
+  frame: number;
+  timeSec: number;
+  words: Word[];
+  items: Concept[];
+  poseIndex: number;
+  activeColor: string;
+}> = ({
   frame,
+  timeSec,
+  words,
+  items,
   poseIndex,
   activeColor,
 }) => {
-  const headBob = Math.sin(frame / 6) * 2.5;
+  const headBob = Math.sin(frame / 6) * 1.5;
+  const sway = Math.sin(frame / 12) * 1.2;
   const strokeProps = {
     stroke: "#1e293b",
     strokeWidth: 5,
@@ -70,77 +86,159 @@ const Stickman: React.FC<{ frame: number; poseIndex: number; activeColor: string
     fill: "none",
   };
 
-  const getPoseElements = () => {
-    switch (poseIndex % 4) {
-      case 0: // Pointing towards the left (where the concept badge is)
+  // Organic eye blinking
+  const isBlinking = (frame % 90) < 4;
+  const eyes = isBlinking ? (
+    <g key="eyes-blink">
+      <line x1={44 + sway * 0.5} y1={30 + headBob} x2={48 + sway * 0.5} y2={30 + headBob} stroke="#1e293b" strokeWidth={2.5} strokeLinecap="round" />
+      <line x1={52 + sway * 0.5} y1={30 + headBob} x2={56 + sway * 0.5} y2={30 + headBob} stroke="#1e293b" strokeWidth={2.5} strokeLinecap="round" />
+    </g>
+  ) : (
+    <g key="eyes-open">
+      <circle cx={46 + sway * 0.5} cy={30 + headBob} r={1.8} fill="#1e293b" />
+      <circle cx={54 + sway * 0.5} cy={30 + headBob} r={1.8} fill="#1e293b" />
+    </g>
+  );
+
+  // Dynamic speaking mouth synchronized with active word duration
+  const isTalking = words.some(w => timeSec >= w.start && timeSec <= w.end);
+  const talkAmp = isTalking ? Math.max(0.5, Math.abs(Math.sin(frame / 1.5)) * 3) : 0;
+  const mouth = (
+    <path
+      d={`M ${44 + sway * 0.5} ${36 + headBob} Q ${50 + sway * 0.5} ${39 + headBob + talkAmp}, ${56 + sway * 0.5} ${36 + headBob}`}
+      stroke="#1e293b"
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      fill="none"
+    />
+  );
+
+  const renderPose = (pIndex: number, opacity: number) => {
+    const p = pIndex < 0 ? 0 : pIndex % 6;
+    const wave = Math.sin(frame / 3.5) * 4;
+    const glow = Math.sin(frame / 5) > 0;
+
+    switch (p) {
+      case 0: // Welcoming / Explaining (both arms open wide)
         return (
-          <>
-            {/* Left Arm: pointing to the left */}
-            <path d="M 50 48 L 22 36" {...strokeProps} />
-            <path d="M 22 36 L 28 30" {...strokeProps} />
-            {/* Right Arm: hand on hip */}
-            <path d="M 50 48 Q 66 54, 60 62" {...strokeProps} />
-            {/* Floating indicator circle near pointing finger */}
-            <circle cx="16" cy="32" r="4" fill={activeColor} opacity={Math.sin(frame / 4) > 0 ? 1 : 0.2} />
-          </>
+          <g key={`pose-wel-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 Q 32 50, 24 42`} {...strokeProps} />
+            <path d={`M 50 48 Q 68 50, 76 42`} {...strokeProps} />
+          </g>
         );
-      case 1: // Celebrating / Arms raised
-        const wave = Math.sin(frame / 3) * 3;
+      case 1: // Pointing Left (pointing to the gallery grid or details)
         return (
-          <>
-            {/* Left Arm up */}
-            <path d={`M 50 48 L 25 ${22 + wave}`} {...strokeProps} />
-            {/* Right Arm up */}
-            <path d={`M 50 48 L 75 ${22 - wave}`} {...strokeProps} />
-          </>
+          <g key={`pose-ptr-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 L ${22 + sway} 36`} {...strokeProps} />
+            <path d={`M ${22 + sway} 36 L ${28 + sway} 30`} {...strokeProps} />
+            <path d={`M 50 48 Q 62 60, 60 70`} {...strokeProps} />
+            <circle cx={14 + sway} cy={30} r={4.5} fill={activeColor} opacity={Math.sin(frame / 4) > 0 ? 1 : 0.3} />
+          </g>
         );
-      case 2: // Thinking / Scratching head
+      case 2: // Celebrating (raising hands in the air)
         return (
-          <>
-            {/* Left Arm: scratching head */}
-            <path d="M 50 48 Q 65 42, 60 26 Q 55 22, 50 26" {...strokeProps} />
-            {/* Right Arm: on hip */}
-            <path d="M 50 48 Q 35 54, 40 62" {...strokeProps} />
-            {/* Floating question mark */}
-            <text x="68" y="24" fontSize="24" fontWeight="bold" fontFamily="monospace" fill="#1e293b" opacity={0.8}>?</text>
-          </>
+          <g key={`pose-cel-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 Q 36 32, 26 ${20 + wave}`} {...strokeProps} />
+            <path d={`M 50 48 Q 64 32, 74 ${20 - wave}`} {...strokeProps} />
+          </g>
         );
-      case 3: // Eureka / Idea!
-        const glow = Math.sin(frame / 5) > 0;
+      case 3: // Thinking (question mark and hand on chin)
         return (
-          <>
-            {/* Left Arm: pointing straight up */}
-            <path d="M 50 48 L 50 18" {...strokeProps} />
-            {/* Right Arm: hand on hip */}
-            <path d="M 50 48 Q 65 54, 60 62" {...strokeProps} />
-            {/* Lightbulb above head */}
-            <text x="50" y="8" fontSize="22" opacity={glow ? 1 : 0.4} filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))">💡</text>
-          </>
+          <g key={`pose-thk-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 Q 35 55, 38 68`} {...strokeProps} />
+            <path d={`M 50 48 Q 58 46, 52 38`} {...strokeProps} />
+            <text x={68 + sway * 0.5} y={22 + headBob} fontSize="20" fontWeight="bold" fontFamily="monospace" fill="#1e293b" opacity={0.8}>?</text>
+          </g>
         );
+      case 4: // Eureka (lightbulb above head)
+        return (
+          <g key={`pose-eur-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 Q 35 60, 38 72`} {...strokeProps} />
+            <path d={`M 50 48 L ${50 + sway} 18`} {...strokeProps} />
+            <text x={50 + sway} y={8 + headBob} fontSize="22" opacity={glow ? 1 : 0.4} filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))">💡</text>
+          </g>
+        );
+      case 5: // Shrugging
       default:
-        return null;
+        return (
+          <g key={`pose-shr-${pIndex}`} style={{ opacity }}>
+            <path d={`M 50 48 Q 38 42, 28 36`} {...strokeProps} />
+            <path d={`M 50 48 Q 62 42, 72 36`} {...strokeProps} />
+          </g>
+        );
     }
+  };
+
+  // Determine if we are within the first 15 frames of a concept's start time
+  let currentConceptStart = 0;
+  if (poseIndex >= 0 && items[poseIndex]) {
+    currentConceptStart = Math.floor(items[poseIndex].start * 30);
+  }
+  const framesSinceTransition = frame - currentConceptStart;
+  const isTransitioning = poseIndex > 0 && framesSinceTransition >= 0 && framesSinceTransition < 15;
+
+  const getPoseElements = () => {
+    if (isTransitioning) {
+      const blend = interpolate(framesSinceTransition, [0, 15], [0, 1], {
+        extrapolateRight: 'clamp',
+        extrapolateLeft: 'clamp'
+      });
+      return (
+        <>
+          {renderPose(poseIndex - 1, 1 - blend)}
+          {renderPose(poseIndex, blend)}
+        </>
+      );
+    }
+    return renderPose(poseIndex, 1);
   };
 
   return (
     <svg viewBox="0 0 100 120" style={{ width: 220, height: 260 }}>
       {/* Head */}
-      <circle cx="50" cy={32 + headBob} r="12" {...strokeProps} fill="#ffffff" />
-      {/* Eyes */}
-      <circle cx="46" cy={30 + headBob} r="1.5" fill="#1e293b" />
-      <circle cx="54" cy={30 + headBob} r="1.5" fill="#1e293b" />
-      {/* Smile */}
-      <path d={`M 44 ${36 + headBob} Q 50 ${40 + headBob}, 56 ${36 + headBob}`} {...strokeProps} strokeWidth={2.5} />
+      <circle cx={50 + sway * 0.5} cy={32 + headBob} r={12} {...strokeProps} fill="#ffffff" />
+      {/* Eyes & Mouth */}
+      {eyes}
+      {mouth}
       
       {/* Torso */}
-      <path d={`M 50 ${44 + headBob} L 50 80`} {...strokeProps} />
+      <path d={`M ${50 + sway * 0.5} ${44 + headBob} L ${50 + sway} 80`} {...strokeProps} />
 
       {/* Dynamic Arms based on Pose */}
       {getPoseElements()}
 
       {/* Legs */}
-      <path d="M 50 80 L 35 115" {...strokeProps} />
-      <path d="M 50 80 L 65 115" {...strokeProps} />
+      <path d={`M ${50 + sway} 80 L 35 115`} {...strokeProps} />
+      <path d={`M ${50 + sway} 80 L 65 115`} {...strokeProps} />
+    </svg>
+  );
+};
+
+// ---------------------------------------------------------
+// Draw-In SVG Ring (badge highlight animation)
+// ---------------------------------------------------------
+const DrawInRing: React.FC<{ frame: number; startFrame: number; color: string; size: number }> = ({ frame, startFrame, color, size }) => {
+  const r = size / 2 - 4;
+  const circ = 2 * Math.PI * r;
+  const progress = interpolate(frame - startFrame, [0, 22], [0, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+  const dashoffset = circ * (1 - progress);
+  return (
+    <svg
+      style={{ position: 'absolute', inset: 0, width: size, height: size, overflow: 'visible' }}
+      viewBox={`0 0 ${size} ${size}`}
+    >
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke={color}
+        strokeWidth={6}
+        strokeDasharray={circ}
+        strokeDashoffset={dashoffset}
+        strokeLinecap="round"
+        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+      />
     </svg>
   );
 };
@@ -148,8 +246,9 @@ const Stickman: React.FC<{ frame: number; poseIndex: number; activeColor: string
 // ---------------------------------------------------------
 // SVG Badge Icon Renderer (for gallery badges AND detail view)
 // ---------------------------------------------------------
-const BadgeIcon: React.FC<{ name: string; size?: number }> = ({
+const BadgeIcon: React.FC<{ name: string; emoji: string; size?: number }> = ({
   name,
+  emoji,
   size = 100,
 }) => {
   const n = name.toLowerCase().replace(/[^a-z]/g, "");
@@ -386,7 +485,7 @@ const BadgeIcon: React.FC<{ name: string; size?: number }> = ({
       return (
         <svg viewBox="0 0 100 100" style={svgStyle}>
           <circle cx="50" cy="50" r="30" fill="#e2e8f0" stroke="#000" strokeWidth="5" />
-          <text x="50" y="58" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#000">💡</text>
+          <text x="50" y="58" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#000">{emoji}</text>
         </svg>
       );
   }
@@ -509,30 +608,46 @@ export const Main: React.FC = () => {
   const activeWords = activeChunkIndex !== -1 ? chunks[activeChunkIndex] : [];
 
   // ---------------------------------------------------------
-  // Layer Opacity & Scale Calculations
+  // Layer Opacity & Scale Calculations (Eased for premium feel)
   // ---------------------------------------------------------
   const galleryOpacity =
     visualState.type === "gallery"
       ? 1
       : visualState.type === "zoom"
-      ? interpolate(visualState.progress, [0, 1], [1, 0])
+      ? interpolate(visualState.progress, [0, 1], [1, 0], {
+          extrapolateRight: "clamp",
+          extrapolateLeft: "clamp",
+          easing: Easing.out(Easing.quad)
+        })
       : 0;
 
   const galleryScale =
     visualState.type === "zoom"
-      ? interpolate(visualState.progress, [0, 1], [1, 1.15])
+      ? interpolate(visualState.progress, [0, 1], [1, 1.15], {
+          extrapolateRight: "clamp",
+          extrapolateLeft: "clamp",
+          easing: Easing.out(Easing.cubic)
+        })
       : 1;
 
   const detailOpacity =
     visualState.type === "detail"
       ? 1
       : visualState.type === "zoom"
-      ? interpolate(visualState.progress, [0, 1], [0, 1])
+      ? interpolate(visualState.progress, [0, 1], [0, 1], {
+          extrapolateRight: "clamp",
+          extrapolateLeft: "clamp",
+          easing: Easing.out(Easing.quad)
+        })
       : 0;
 
   const detailBadgeScale =
     visualState.type === "zoom"
-      ? interpolate(visualState.progress, [0, 1], [0.4, 1])
+      ? interpolate(visualState.progress, [0, 1], [0.4, 1], {
+          extrapolateRight: "clamp",
+          extrapolateLeft: "clamp",
+          easing: Easing.out(Easing.cubic)
+        })
       : 1;
 
   // ---------------------------------------------------------
@@ -543,12 +658,6 @@ export const Main: React.FC = () => {
     [-1, 1],
     [1.0, 1.12]
   );
-  const pulseGlow = interpolate(
-    Math.sin((frame / 8) * Math.PI),
-    [-1, 1],
-    [0.4, 1.0]
-  );
-
   // Determine grid columns based on item count
   const gridCols = items.length <= 12 ? 4 : 5;
 
@@ -598,115 +707,166 @@ export const Main: React.FC = () => {
             </h1>
           </div>
 
-          {/* Badge Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-              gap: "40px 50px",
-              maxWidth: "92%",
-              justifyItems: "center",
-              alignItems: "center",
-              margin: "auto 0",
-            }}
-          >
-            {items.map((item, index) => {
-              const isHighlighted =
-                visualState.type === "gallery" &&
-                visualState.highlightIndex === index;
-              const isCompleted = timeSec > item.end;
+          {/* Main content row with Grid on Left and Stickman on Right */}
+          {(() => {
+            const highlightIndex = visualState.type === "gallery" ? visualState.highlightIndex : -1;
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  flexGrow: 1,
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  margin: "auto 0",
+                }}
+              >
+            {/* Left: Badge Grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
+                gap: "25px 35px",
+                maxWidth: "75%",
+                justifyItems: "center",
+                alignItems: "center",
+              }}
+            >
+              {items.map((item, index) => {
+                const isHighlighted =
+                  visualState.type === "gallery" &&
+                  visualState.highlightIndex === index;
+                const isCompleted = timeSec > item.end;
 
-              return (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    transform: isHighlighted
-                      ? `scale(${pulseScale})`
-                      : "scale(1)",
-                    opacity: isCompleted ? 0.35 : 1,
-                    transition: "opacity 0.3s",
-                  }}
-                >
-                  {/* Colored Circle Badge */}
+                return (
                   <div
+                    key={index}
                     style={{
-                      width: 130,
-                      height: 130,
-                      borderRadius: "50%",
                       display: "flex",
+                      flexDirection: "column",
                       alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: item.color,
-                      border: isHighlighted
-                        ? `6px solid #1e293b`
-                        : `6px solid ${item.color}`,
-                      boxShadow: isHighlighted
-                        ? `0 0 30px ${item.color}bf, 0 8px 24px rgba(0,0,0,0.12)`
-                        : "0 4px 12px rgba(0,0,0,0.06)",
-                      position: "relative",
+                      transform: isHighlighted
+                        ? `scale(${pulseScale})`
+                        : "scale(1)",
+                      opacity: isCompleted ? 0.35 : 1,
+                      transition: "opacity 0.3s",
                     }}
                   >
-                    <BadgeIcon name={item.name} size={80} />
+                    {/* Colored Circle Badge */}
+                    <div
+                      style={{
+                        width: 130,
+                        height: 130,
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: item.color,
+                        border: isHighlighted
+                          ? `6px solid #1e293b`
+                          : `6px solid ${item.color}`,
+                        boxShadow: isHighlighted
+                          ? `0 0 30px ${item.color}bf, 0 8px 24px rgba(0,0,0,0.12)`
+                          : "0 4px 12px rgba(0,0,0,0.06)",
+                        position: "relative",
+                      }}
+                    >
+                      <BadgeIcon name={item.name} emoji={item.emoji} size={80} />
 
-                    {/* Red X for completed badges */}
-                    {isCompleted && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
+                      {/* Draw-In Ring for highlighted badge */}
+                      {isHighlighted && (
+                        <DrawInRing
+                          frame={frame}
+                          startFrame={
+                            visualState.type === 'gallery' && visualState.highlightIndex === index
+                              ? Math.floor((items[index]?.start || 0) * fps)
+                              : 0
+                          }
+                          color="#ffffff"
+                          size={130}
+                        />
+                      )}
+
+                      {/* Red X for completed badges */}
+                      {isCompleted && (
                         <div
                           style={{
                             position: "absolute",
-                            width: "115%",
-                            height: 8,
-                            backgroundColor: "#dc2626",
-                            borderRadius: 4,
-                            transform: "rotate(45deg)",
-                            opacity: 0.9,
+                            inset: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                           }}
-                        />
-                        <div
-                          style={{
-                            position: "absolute",
-                            width: "115%",
-                            height: 8,
-                            backgroundColor: "#dc2626",
-                            borderRadius: 4,
-                            transform: "rotate(-45deg)",
-                            opacity: 0.9,
-                          }}
-                        />
-                      </div>
-                    )}
+                        >
+                          <div
+                            style={{
+                              position: "absolute",
+                              width: "115%",
+                              height: 8,
+                              backgroundColor: "#dc2626",
+                              borderRadius: 4,
+                              transform: "rotate(45deg)",
+                              opacity: 0.9,
+                            }}
+                          />
+                          <div
+                            style={{
+                              position: "absolute",
+                              width: "115%",
+                              height: 8,
+                              backgroundColor: "#dc2626",
+                              borderRadius: 4,
+                              transform: "rotate(-45deg)",
+                              opacity: 0.9,
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Label */}
+                    <span
+                      style={{
+                        marginTop: 10,
+                        fontSize: 18,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        maxWidth: 150,
+                        color: isHighlighted ? "#0f172a" : "#64748b",
+                        letterSpacing: 1,
+                      }}
+                    >
+                      {item.name}
+                    </span>
                   </div>
+                );
+              })}
+            </div>
 
-                  {/* Label */}
-                  <span
-                    style={{
-                      marginTop: 10,
-                      fontSize: 18,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      maxWidth: 150,
-                      color: isHighlighted ? "#0f172a" : "#64748b",
-                      letterSpacing: 1,
-                    }}
-                  >
-                    {item.name}
-                  </span>
-                </div>
-              );
-            })}
+            {/* Right: Stickman Presenter in Gallery View */}
+            <div
+              style={{
+                width: "250px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                transform: "translateY(-10px)",
+              }}
+            >
+              <Stickman
+                frame={frame}
+                timeSec={timeSec}
+                words={activeWords}
+                items={items}
+                poseIndex={highlightIndex === -1 ? 0 : 1}
+                activeColor={highlightIndex === -1 ? "#3b82f6" : items[highlightIndex].color}
+              />
+            </div>
           </div>
+            );
+          })()}
 
           {/* Footer */}
           <div
@@ -726,7 +886,29 @@ export const Main: React.FC = () => {
       {/* ================================================================ */}
       {/* DETAIL LAYER */}
       {/* ================================================================ */}
-      {detailOpacity > 0 && activeItem && (
+      {detailOpacity > 0 && activeItem && (() => {
+        const conceptStartFrame = activeItem ? Math.floor(activeItem.start * fps) : 0;
+        const framesInDetail = frame - conceptStartFrame - Math.floor(TRANSITION_TOTAL * fps);
+        const cameraScale = framesInDetail >= 0
+          ? interpolate(framesInDetail, [0, 18], [1.06, 1.0], { 
+              extrapolateRight: 'clamp',
+              easing: Easing.out(Easing.cubic)
+            })
+          : 1.0;
+          
+        const activeScene = activeItem.scenes && activeItem.scenes.length > 0
+          ? activeItem.scenes.find(s => timeSec >= s.start && timeSec <= s.end) || activeItem.scenes[0]
+          : null;
+          
+        return (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            transform: `scale(${cameraScale})`,
+            transformOrigin: 'center center',
+          }}
+        >
         <div
           style={{
             position: "absolute",
@@ -767,7 +949,7 @@ export const Main: React.FC = () => {
               padding: "20px 40px",
             }}
           >
-            {/* Left: Concept Badge */}
+            {/* Left: Whiteboard Sketchpad or Concept Badge Fallback */}
             <div
               style={{
                 display: "flex",
@@ -778,49 +960,95 @@ export const Main: React.FC = () => {
                 position: "relative",
               }}
             >
-              {/* Glow halo */}
-              <div
-                style={{
-                  position: "absolute",
-                  width: 380,
-                  height: 380,
-                  borderRadius: "50%",
-                  backgroundColor: activeItem.color,
-                  opacity: 0.2,
-                  filter: "blur(60px)",
-                }}
-              />
-              {/* Badge circle */}
-              <div
-                style={{
-                  width: 320,
-                  height: 320,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: activeItem.color,
-                  border: "8px solid #1e293b",
-                  boxShadow: `0 12px 30px ${activeItem.color}40, 0 8px 24px rgba(0,0,0,0.12)`,
-                  position: "relative",
-                }}
-              >
-                <BadgeIcon name={activeItem.name} size={200} />
-                
-                {/* Large floating Emoji */}
+              {activeScene ? (
                 <div
                   style={{
-                    position: "absolute",
-                    top: -15,
-                    right: -15,
-                    fontSize: 64,
-                    filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.15))",
-                    transform: `rotate(${Math.sin(frame / 8) * 10}deg)`,
+                    width: 380,
+                    height: 380,
+                    backgroundColor: "#fbfbf9",
+                    backgroundImage: "linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)",
+                    backgroundSize: "20px 20px",
+                    border: "6px solid #1e293b",
+                    borderRadius: 16,
+                    boxShadow: "0 16px 36px rgba(0,0,0,0.1)",
+                    padding: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                    overflow: "visible"
                   }}
                 >
-                  {activeItem.emoji}
+                  <svg
+                    viewBox="0 0 100 100"
+                    style={{ width: "100%", height: "100%", overflow: "visible" }}
+                    dangerouslySetInnerHTML={{ __html: activeScene.sketch }}
+                  />
+                  
+                  {/* Miniature Concept Badge in the top-right corner */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: -15,
+                      right: -15,
+                      width: 56,
+                      height: 56,
+                      borderRadius: "50%",
+                      backgroundColor: activeItem.color,
+                      border: "3px solid #1e293b",
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 26,
+                      userSelect: "none"
+                    }}
+                  >
+                    {activeItem.emoji}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div
+                    style={{
+                      position: "absolute",
+                      width: 380,
+                      height: 380,
+                      borderRadius: "50%",
+                      background: `radial-gradient(circle, ${activeItem.color} 0%, transparent 70%)`,
+                      opacity: 0.25,
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: 320,
+                      height: 320,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: activeItem.color,
+                      border: "8px solid #1e293b",
+                      boxShadow: `0 12px 30px ${activeItem.color}40, 0 8px 24px rgba(0,0,0,0.12)`,
+                      position: "relative",
+                    }}
+                  >
+                    <BadgeIcon name={activeItem.name} emoji={activeItem.emoji} size={200} />
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: -15,
+                        right: -15,
+                        fontSize: 64,
+                        filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.15))",
+                        transform: `rotate(${Math.sin(frame / 8) * 10}deg)`,
+                      }}
+                    >
+                      {activeItem.emoji}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Right: Stickman Presenter */}
@@ -833,7 +1061,14 @@ export const Main: React.FC = () => {
                 transformOrigin: "center center",
               }}
             >
-              <Stickman frame={frame} poseIndex={activeConceptIndex} activeColor={activeItem.color} />
+              <Stickman
+                frame={frame}
+                timeSec={timeSec}
+                words={activeWords}
+                items={items}
+                poseIndex={activeConceptIndex}
+                activeColor={activeItem.color}
+              />
             </div>
           </div>
 
@@ -865,6 +1100,21 @@ export const Main: React.FC = () => {
               >
                 {activeWords.map((w, idx) => {
                   const isActive = timeSec >= w.start && timeSec <= w.end;
+                  const wordActiveFrame = Math.floor(w.start * fps);
+                  const wordEndFrame = Math.floor(w.end * fps);
+                  
+                  const scale = isActive
+                    ? interpolate(frame - wordActiveFrame, [0, 4], [1.0, 1.12], {
+                        extrapolateRight: "clamp",
+                        extrapolateLeft: "clamp",
+                        easing: Easing.out(Easing.quad)
+                      })
+                    : interpolate(frame - wordEndFrame, [0, 4], [1.12, 1.0], {
+                        extrapolateRight: "clamp",
+                        extrapolateLeft: "clamp",
+                        easing: Easing.out(Easing.quad)
+                      });
+
                   return (
                     <span
                       key={idx}
@@ -877,8 +1127,8 @@ export const Main: React.FC = () => {
                         textShadow: isActive
                           ? `0 0 10px ${activeItem.color}40`
                           : "none",
-                        transform: isActive ? "scale(1.08)" : "scale(1.0)",
-                        transition: "all 0.1s",
+                        transform: `scale(${scale})`,
+                        display: "inline-block",
                       }}
                     >
                       {w.word}
@@ -889,7 +1139,9 @@ export const Main: React.FC = () => {
             )}
           </div>
         </div>
-      )}
+        </div>
+        );
+      })()}
 
       {/* ================================================================ */}
       {/* AUDIO TRACKS */}

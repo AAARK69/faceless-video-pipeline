@@ -1,0 +1,10 @@
+{
+  "pass": true,
+  "score": 95,
+  "issues": [],
+  "warnings": [
+    "HIGH REPETITION: \"Why Rent Prices Will Never Go Down Category 1\" and \"Why Rent Prices Will Never Go Down Category 2\" share 90% bigram overlap."
+  ],
+  "topic": "Why Rent Prices Will Never Go Down",
+  "timestamp": "2026-06-23T01:44:00.939Z"
+}
