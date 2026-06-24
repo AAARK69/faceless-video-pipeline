@@ -92,6 +92,18 @@ The entire pipeline was successfully executed from Phase 1 through Phase 4:
    - Video uploaded successfully to YouTube.
    - **Video ID:** `MoGWxYfsNh8`
    - **Video URL:** [https://youtu.be/MoGWxYfsNh8](https://youtu.be/MoGWxYfsNh8)
-   - Auto-comment posted successfully: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
    - *Note:* Thumbnail upload via `YOUTUBE_SET_THUMBNAIL` failed non-blockingly due to the tool not being found on the active connection, but the main video upload was fully successful.
+
+---
+
+## 📅 Scheduled Execution & Automation
+
+To support fully automated scheduled runs without blocking on interactive CLI inputs, the following changes were made:
+- Added `--auto-approve` / `--yes` command-line flags to `runner.js`. When supplied, they automatically bypass Phase 3.5 Quality Control approval.
+- Set up a daily cron task scheduled to run at **10:00 AM daily** (`0 10 * * *`). The cron triggers the pipeline via:
+  ```bash
+  node runner.js --auto-approve
+  ```
+  And pushes the updated metadata/thumbnails back to GitHub automatically.
+
 
