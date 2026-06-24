@@ -646,17 +646,23 @@ async function main() {
             console.log("[Quality Control] Video generated at final_video.mp4.");
             console.log("[Quality Control] Please review the file locally.");
             
-            const rl = readline.createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
+            let isApproved = false;
+            if (process.argv.includes('--auto-approve') || process.argv.includes('--yes')) {
+                console.log("[Quality Control] Auto-approving video (--auto-approve flag set).");
+                isApproved = true;
+            } else {
+                const rl = readline.createInterface({
+                    input: process.stdin,
+                    output: process.stdout
+                });
 
-            const answer = await new Promise(resolve => {
-                rl.question("[Quality Control] Type 'Y' to approve and proceed to Phase 4 (Distribution), or 'N' to abort: ", resolve);
-            });
-            rl.close();
+                const answer = await new Promise(resolve => {
+                    rl.question("[Quality Control] Type 'Y' to approve and proceed to Phase 4 (Distribution), or 'N' to abort: ", resolve);
+                });
+                rl.close();
+                isApproved = answer.trim().toLowerCase() === 'y' || answer.trim().toLowerCase() === 'yes';
+            }
 
-            const isApproved = answer.trim().toLowerCase() === 'y' || answer.trim().toLowerCase() === 'yes';
             if (!isApproved) {
                 console.log("[Quality Control] Video rejected. Aborting upload.");
                 console.log("\n================================================================================");
