@@ -72,9 +72,34 @@ Ingestion   Script/TTS   Quality     Render    Thumbnail    QC Review   Upload
 
 ---
 
-## 🚀 Latest Execution (June 23, 2026)
+## 🚀 Latest Execution (June 26, 2026 - Scheduled Run)
 
-The entire pipeline was successfully executed from Phase 1 through Phase 4:
+The pipeline was executed automatically via the scheduled daily task using the `--auto-approve` flag:
+
+1. **Phase 1: Ingestion**
+   - Topic selected: `"Why Procrastination Isn't About Laziness"`
+   - 12 key concepts generated.
+2. **Phase 2: Synthesis & TTS**
+   - Speech generated with `en-US-BrianNeural` voice (1,570 words).
+   - Concept timings aligned and saved to `timing.toon`.
+3. **Phase 3: Rendering**
+   - Video rendered successfully (18,126 frames, ~10.1 minutes duration).
+4. **Phase 3.1: Thumbnail Generation**
+   - Thumbnail generated successfully with custom styling and saved to `thumbnail.png`.
+5. **Phase 3.5: Quality Control (QC)**
+   - Automatically approved due to the `--auto-approve` flag.
+6. **Phase 4: Distribution**
+   - Video uploaded successfully to YouTube.
+   - **Video ID:** `uPF6wr-hLxE`
+   - **Video URL:** [https://youtu.be/uPF6wr-hLxE](https://youtu.be/uPF6wr-hLxE)
+   - Auto-posted comment: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
+   - Updated repository state pushed to GitHub under commit `ab383a4`.
+
+---
+
+## 🚀 Previous Execution (June 23, 2026)
+
+The pipeline was successfully executed from Phase 1 through Phase 4:
 
 1. **Phase 1: Ingestion**
    - Topic selected: `"Why Rent Prices Will Never Go Down"`
@@ -93,6 +118,7 @@ The entire pipeline was successfully executed from Phase 1 through Phase 4:
    - **Video ID:** `MoGWxYfsNh8`
    - **Video URL:** [https://youtu.be/MoGWxYfsNh8](https://youtu.be/MoGWxYfsNh8)
    - *Note:* Thumbnail upload via `YOUTUBE_SET_THUMBNAIL` failed non-blockingly due to the tool not being found on the active connection, but the main video upload was fully successful.
+
 
 ---
 
