@@ -72,7 +72,32 @@ Ingestion   Script/TTS   Quality     Render    Thumbnail    QC Review   Upload
 
 ---
 
-## 🚀 Latest Execution (June 26, 2026 - Scheduled Run)
+## 🚀 Latest Execution (June 29, 2026 - Scheduled Run)
+
+The pipeline was executed automatically via the scheduled daily task using the `--auto-approve` flag:
+
+1. **Phase 1: Ingestion**
+   - Topic selected: `"Why We Love Villains More Than Heroes"`
+   - 12 key concepts generated.
+2. **Phase 2: Synthesis & TTS**
+   - Speech generated with `en-US-BrianNeural` voice (1,637 words).
+   - Concept timings aligned and saved to `timing.toon`.
+3. **Phase 3: Rendering**
+   - Video rendered successfully (18,910 frames, ~10.5 minutes duration).
+4. **Phase 3.1: Thumbnail Generation**
+   - Thumbnail generated successfully with custom styling and saved to `thumbnail.png`.
+5. **Phase 3.5: Quality Control (QC)**
+   - Automatically approved due to the `--auto-approve` flag.
+6. **Phase 4: Distribution**
+   - Video uploaded successfully to YouTube.
+   - **Video ID:** `P_T64-u3yyI`
+   - **Video URL:** [https://youtu.be/P_T64-u3yyI](https://youtu.be/P_T64-u3yyI)
+   - Auto-posted comment: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
+   - Updated repository state pushed to GitHub under commit `6b3058b`.
+
+---
+
+## 🚀 Previous Execution (June 26, 2026 - Scheduled Run)
 
 The pipeline was executed automatically via the scheduled daily task using the `--auto-approve` flag:
 
