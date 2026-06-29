@@ -72,7 +72,32 @@ Ingestion   Script/TTS   Quality     Render    Thumbnail    QC Review   Upload
 
 ---
 
-## 🚀 Latest Execution (June 29, 2026 - Scheduled Run)
+## 🚀 Latest Execution (June 29, 2026 - Manual Run)
+
+The pipeline was executed manually using the `--auto-approve` flag:
+
+1. **Phase 1: Ingestion**
+   - Topic selected: `"How Propaganda Actually Works"`
+   - 12 key concepts generated.
+2. **Phase 2: Synthesis & TTS**
+   - Speech generated with `en-US-BrianNeural` voice (1,571 words).
+   - Concept timings aligned and saved to `timing.toon`.
+3. **Phase 3: Rendering**
+   - Video rendered successfully (18,859 frames, ~10.5 minutes duration).
+4. **Phase 3.1: Thumbnail Generation**
+   - Thumbnail generated successfully with custom styling and saved to `thumbnail.png`.
+5. **Phase 3.5: Quality Control (QC)**
+   - Automatically approved due to the `--auto-approve` flag.
+6. **Phase 4: Distribution**
+   - Video uploaded successfully to YouTube.
+   - **Video ID:** `nsZMVGqJdHQ`
+   - **Video URL:** [https://youtu.be/nsZMVGqJdHQ](https://youtu.be/nsZMVGqJdHQ)
+   - Auto-posted comment: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
+   - Updated repository state pushed to GitHub under commit `0d84a4a`.
+
+---
+
+## 🚀 Previous Execution (June 29, 2026 - Scheduled Run)
 
 The pipeline was executed automatically via the scheduled daily task using the `--auto-approve` flag:
 
