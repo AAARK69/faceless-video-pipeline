@@ -456,7 +456,11 @@ async function main() {
 
         const localScriptJsonPath = path.join(rootDir, 'script.json');
 
-        if (process.argv.includes('--skip-ingestion') && fs.existsSync(localScriptJsonPath)) {
+        if (process.argv.includes('--skip-synthesis') && fs.existsSync(localScriptJsonPath)) {
+            console.log("[Phase 2 Synthesis] Skipped due to --skip-synthesis flag. Using existing property_data.toon and script.json.");
+            scriptObj = JSON.parse(fs.readFileSync(localScriptJsonPath, 'utf8'));
+        }
+        else if (process.argv.includes('--skip-ingestion') && fs.existsSync(localScriptJsonPath)) {
             console.log("[Phase 2 Synthesis] Found local script.json with --skip-ingestion. Using it as override.");
             scriptObj = JSON.parse(fs.readFileSync(localScriptJsonPath, 'utf8'));
             

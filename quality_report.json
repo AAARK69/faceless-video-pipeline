@@ -1,10 +1,8 @@
 {
   "pass": true,
-  "score": 95,
+  "score": 100,
   "issues": [],
-  "warnings": [
-    "HIGH REPETITION: \"How Propaganda Actually Work Category 1\" and \"How Propaganda Actually Work Category 2\" share 90% bigram overlap."
-  ],
-  "topic": "How Propaganda Actually Works",
-  "timestamp": "2026-06-29T16:28:20.298Z"
+  "warnings": [],
+  "topic": "Every Investment and Option Strategy Explained",
+  "timestamp": "2026-06-29T16:52:58.349Z"
 }

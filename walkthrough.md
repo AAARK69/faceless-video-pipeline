@@ -72,7 +72,32 @@ Ingestion   Script/TTS   Quality     Render    Thumbnail    QC Review   Upload
 
 ---
 
-## 🚀 Latest Execution (June 29, 2026 - Manual Run)
+## 🚀 Latest Execution (June 29, 2026 - Custom Finance Manual Run)
+
+The pipeline was executed manually using `--skip-ingestion --skip-synthesis --auto-approve` to generate a video on custom financial concepts:
+
+1. **Phase 1: Ingestion**
+   - Topic selected: `"Every Investment and Option Strategy Explained"`
+   - 12 custom financial concepts supplied (Mutual Funds, ETFs, Stock Indexes, S&P 500, Bullion, Gold Prices, Current Deposits, Savings Accounts, Checking Accounts, Butterfly Options, Credit Spreads, Debit Spreads).
+2. **Phase 2: Synthesis & TTS**
+   - Narration script manually designed and verified to be exactly **1,400 words**.
+   - Speech generated with `en-US-BrianNeural` voice.
+   - Concept timings aligned and saved to `timing.toon`.
+3. **Phase 3: Rendering**
+   - Video rendered successfully (16,942 frames, ~9.4 minutes duration).
+4. **Phase 3.1: Thumbnail Generation**
+   - Thumbnail generated successfully with custom styling and saved to `thumbnail.png`.
+5. **Phase 3.5: Quality Control (QC)**
+   - Automatically approved due to the `--auto-approve` flag.
+6. **Phase 4: Distribution**
+   - Video uploaded successfully to YouTube.
+   - **Video ID:** `n0tKcG2haQM`
+   - **Video URL:** [https://youtu.be/n0tKcG2haQM](https://youtu.be/n0tKcG2haQM)
+   - Auto-posted comment: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
+
+---
+
+## 🚀 Previous Execution (June 29, 2026 - Manual Run)
 
 The pipeline was executed manually using the `--auto-approve` flag:
 
