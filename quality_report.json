@@ -1,8 +1,10 @@
 {
   "pass": true,
-  "score": 100,
+  "score": 95,
   "issues": [],
-  "warnings": [],
-  "topic": "Every Investment and Option Strategy Explained",
-  "timestamp": "2026-06-29T16:52:58.349Z"
+  "warnings": [
+    "HIGH REPETITION: \"US Dollar\" and \"Australian Dollar\" share 90% bigram overlap."
+  ],
+  "topic": "Every Currency Crisis Explained",
+  "timestamp": "2026-06-30T02:59:12.859Z"
 }

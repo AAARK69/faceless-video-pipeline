@@ -1,19 +1,19 @@
 {
-  "topic": "Every Investment and Option Strategy Explained",
-  "emoji": "💼",
-  "accentColor": "#2563eb",
+  "topic": "Every Currency Crisis Explained",
+  "emoji": "💵",
+  "accentColor": "#10b981",
   "conceptNames": [
-    "Mutual Funds",
-    "ETFs",
-    "Stock Indexes",
-    "S&P 500",
-    "Bullion",
-    "Gold Prices",
-    "Current Deposits",
-    "Savings Accounts",
-    "Checking Accounts",
-    "Butterfly Options",
-    "Credit Spreads",
-    "Debit Spreads"
+    "US Dollar",
+    "Euro",
+    "Japanese Yen",
+    "British Pound",
+    "Swiss Franc",
+    "Australian Dollar",
+    "Canadian Dollar",
+    "Chinese Yuan",
+    "Indian Rupee",
+    "Brazilian Real",
+    "South African Rand",
+    "Bitcoin"
   ]
 }

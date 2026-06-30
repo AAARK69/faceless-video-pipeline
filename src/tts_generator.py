@@ -11,90 +11,173 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 from toon_utils import decode_topic_data, encode_timing_with_concepts
 
-async def generate_speech_and_timings(text, output_file, voice="en-US-BrianNeural"):
-    """
-    Synthesizes speech from text using edge-tts with word boundaries,
-    and returns the word timings. Then normalizes and resamples using ffmpeg.
-    With robust retries and timeouts for network resilience.
-    """
+def split_text_into_chunks(text, max_chars=4000):
+    """Splits text by sentence boundaries into chunks under max_chars."""
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks = []
+    current_chunk = []
+    current_length = 0
+    for s in sentences:
+        if not s.strip():
+            continue
+        if current_length + len(s) + 1 > max_chars:
+            if current_chunk:
+                chunks.append(" ".join(current_chunk))
+            current_chunk = [s]
+            current_length = len(s)
+        else:
+            current_chunk.append(s)
+            current_length += len(s) + 1
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+    return chunks
+
+def get_audio_duration(file_path):
+    """Retrieves the exact duration of an audio file using ffprobe."""
     import subprocess
-    print(f"Synthesizing speech with voice {voice} (word boundaries enabled)...")
-    
-    raw_output_file = output_file + ".raw.mp3"
-    words_data = []
-    
-    # Try up to 3 times to download and capture stream
-    for attempt in range(1, 4):
-        print(f"TTS stream download attempt {attempt}/3...")
-        if os.path.exists(raw_output_file):
-            try:
-                os.remove(raw_output_file)
-            except Exception:
-                pass
-            
-        words_data = []
-        try:
-            communicate = edge_tts.Communicate(text, voice, boundary="WordBoundary")
-            
-            # Use asyncio.wait_for around the stream loop to prevent hangs
-            async def run_stream():
-                with open(raw_output_file, "wb") as f:
-                    async for chunk in communicate.stream():
-                        if chunk["type"] == "audio":
-                            f.write(chunk["data"])
-                        elif chunk["type"] == "WordBoundary":
-                            start_sec = chunk["offset"] / 10000000.0
-                            duration_sec = chunk["duration"] / 10000000.0
-                            words_data.append({
-                                "word": chunk["text"],
-                                "start": round(start_sec, 3),
-                                "end": round(start_sec + duration_sec, 3)
-                            })
-            
-            await asyncio.wait_for(run_stream(), timeout=600.0)
-            print("TTS download and timing capture completed successfully.")
-            break
-        except asyncio.TimeoutError:
-            print(f"Warning: TTS stream timed out on attempt {attempt}.")
-            if attempt == 3:
-                raise RuntimeError("Failed to stream speech audio: connection timed out 3 times.")
-        except Exception as e:
-            print(f"Warning: TTS stream failed on attempt {attempt}: {e}")
-            if attempt == 3:
-                raise e
-            await asyncio.sleep(2)
-            
-    # Process audio with ffmpeg: convert to 44100Hz, stereo, normalize volume (loudnorm)
-    print("Processing voiceover through ffmpeg for broadcast quality...")
     try:
-        # Use local node-env bin path or system path for ffmpeg
-        ffmpeg_cmd = [
-            "ffmpeg", "-y", "-i", raw_output_file,
-            "-ar", "44100", "-ac", "2",
-            "-filter:a", "volume=1.8,loudnorm=I=-16:LRA=11:TP=-1.5",
-            output_file
+        cmd = [
+            "ffprobe", "-v", "error", "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1", file_path
         ]
-        
-        # Merge local bin directory into PATH
         rootDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         binDir = os.path.join(rootDir, "node-env", "bin")
         env = {**os.environ}
         env["PATH"] = f"{binDir}:{env.get('PATH', '')}"
         
-        subprocess.run(ffmpeg_cmd, env=env, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print(f"Speech saved and normalized to {output_file}")
+        res = subprocess.run(cmd, env=env, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return float(res.stdout.decode().strip())
     except Exception as e:
-        print(f"Ffmpeg post-processing failed, using raw output instead: {e}")
-        import shutil
-        shutil.copyfile(raw_output_file, output_file)
+        print(f"Warning: ffprobe failed to get duration, using fallback: {e}")
+        return None
+
+async def generate_speech_and_timings(text, output_file, voice="en-US-BrianNeural"):
+    """
+    Synthesizes speech from text using edge-tts with word boundaries,
+    and returns the word timings. Splits long scripts into chunks, 
+    merges the raw MP3s, and normalizes using ffmpeg.
+    """
+    import subprocess
+    import shutil
+    print(f"Synthesizing speech with voice {voice} (word boundaries enabled)...")
+    
+    # Split text into chunks to avoid Microsoft API websocket length limit issues
+    chunks = split_text_into_chunks(text, 4000)
+    print(f"Split script into {len(chunks)} chunks for stable TTS retrieval.")
+    
+    combined_words_data = []
+    temp_files = []
+    current_time_offset = 0.0
+    
+    try:
+        for idx, chunk_text in enumerate(chunks):
+            print(f"Processing chunk {idx+1}/{len(chunks)} ({len(chunk_text)} chars)...")
+            part_file = f"{output_file}.part_{idx}.mp3"
+            temp_files.append(part_file)
+            
+            words_data = []
+            # Try up to 3 times per chunk
+            for attempt in range(1, 4):
+                print(f"  Attempt {attempt}/3...")
+                if os.path.exists(part_file):
+                    try:
+                        os.remove(part_file)
+                    except Exception:
+                        pass
+                
+                words_data = []
+                try:
+                    communicate = edge_tts.Communicate(chunk_text, voice, boundary="WordBoundary")
+                    
+                    async def run_stream():
+                        with open(part_file, "wb") as f:
+                            async for chunk in communicate.stream():
+                                if chunk["type"] == "audio":
+                                    f.write(chunk["data"])
+                                elif chunk["type"] == "WordBoundary":
+                                    start_sec = chunk["offset"] / 10000000.0
+                                    duration_sec = chunk["duration"] / 10000000.0
+                                    words_data.append({
+                                        "word": chunk["text"],
+                                        "start": round(start_sec, 3),
+                                        "end": round(start_sec + duration_sec, 3)
+                                    })
+                                    
+                    await asyncio.wait_for(run_stream(), timeout=180.0) # 3 min timeout per chunk
+                    print(f"  Chunk {idx+1} download completed successfully.")
+                    break
+                except asyncio.TimeoutError:
+                    print(f"  Warning: Chunk {idx+1} timed out.")
+                    if attempt == 3:
+                        raise RuntimeError(f"Failed to stream chunk {idx+1}: connection timed out.")
+                except Exception as e:
+                    print(f"  Warning: Chunk {idx+1} failed: {e}")
+                    if attempt == 3:
+                        raise e
+                    await asyncio.sleep(2)
+            
+            if not words_data:
+                raise RuntimeError(f"No word timings captured for chunk {idx+1}")
+                
+            # Shift timings of this chunk by the current offset
+            for w in words_data:
+                combined_words_data.append({
+                    "word": w["word"],
+                    "start": round(w["start"] + current_time_offset, 3),
+                    "end": round(w["end"] + current_time_offset, 3)
+                })
+                
+            # Update time offset. Get exact file duration via ffprobe
+            file_dur = get_audio_duration(part_file)
+            if file_dur is not None:
+                current_time_offset += file_dur
+            else:
+                # Fallback to last word end + 0.4s padding
+                current_time_offset += words_data[-1]["end"] + 0.4
+            
+        # Concatenate MP3 files binary-wise
+        raw_output_file = output_file + ".raw.mp3"
+        with open(raw_output_file, "wb") as outfile:
+            for part_file in temp_files:
+                with open(part_file, "rb") as infile:
+                    outfile.write(infile.read())
+                    
+        # Now process the combined audio through ffmpeg for broadcast quality
+        print("Processing combined voiceover through ffmpeg for broadcast quality...")
+        try:
+            ffmpeg_cmd = [
+                "ffmpeg", "-y", "-i", raw_output_file,
+                "-ar", "44100", "-ac", "2",
+                "-filter:a", "volume=1.8,loudnorm=I=-16:LRA=11:TP=-1.5",
+                output_file
+            ]
+            
+            rootDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            binDir = os.path.join(rootDir, "node-env", "bin")
+            env = {**os.environ}
+            env["PATH"] = f"{binDir}:{env.get('PATH', '')}"
+            
+            subprocess.run(ffmpeg_cmd, env=env, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print(f"Speech saved and normalized to {output_file}")
+        except Exception as e:
+            print(f"Ffmpeg post-processing failed, using raw output instead: {e}")
+            shutil.copyfile(raw_output_file, output_file)
+            
     finally:
+        # Clean up all temporary files
         if os.path.exists(raw_output_file):
             try:
                 os.remove(raw_output_file)
             except Exception:
                 pass
-                
-    return words_data
+        for part_file in temp_files:
+            if os.path.exists(part_file):
+                try:
+                    os.remove(part_file)
+                except Exception:
+                    pass
+                    
+    return combined_words_data
 
 def clean_word(w):
     """Clean a string for matching."""

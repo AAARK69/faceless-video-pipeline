@@ -150,11 +150,11 @@ function run() {
     // Determine dynamic concurrency based on CPU cores for maximum efficiency
     const os = require('os');
     const cpuCount = os.cpus().length || 4;
-    // Bound concurrency to 4 to prevent Puppeteer memory pressure / timeout crashes on high-core machines
-    const concurrency = Math.min(4, Math.max(1, Math.floor(cpuCount / 2)));
+    // Bound concurrency to 2 to prevent Puppeteer memory pressure / timeout crashes on high-core machines
+    const concurrency = Math.min(2, Math.max(1, Math.floor(cpuCount / 2)));
     
     // Execute remotion render using the local Node binary path
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=120000`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=600000`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {

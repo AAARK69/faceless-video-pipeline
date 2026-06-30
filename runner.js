@@ -578,7 +578,7 @@ async function main() {
         fs.writeFileSync(tempScriptPath, fullScriptText, 'utf8');
         
         // Run TTS Generator with the file path
-        const ttsCmd = `${envPath} python3 src/tts_generator.py "${tempScriptPath}"`;
+        const ttsCmd = `${envPath} python3 -u src/tts_generator.py "${tempScriptPath}"`;
         console.log(`Running TTS: ${ttsCmd}`);
         execSync(ttsCmd, { stdio: 'inherit', cwd: rootDir });
         
