@@ -72,7 +72,34 @@ Ingestion   Script/TTS   Quality     Render    Thumbnail    QC Review   Upload
 
 ---
 
-## 🚀 Latest Execution (June 29, 2026 - Custom Finance Manual Run)
+## 🚀 Latest Execution (June 30, 2026 - Scheduled daily run iteration 3)
+
+The pipeline was executed automatically via the scheduled daily task using the `--auto-approve` flag:
+
+1. **Phase 1: Ingestion**
+   - Topic selected: `"Every Currency Crisis Explained"`
+   - 12 key concepts generated.
+2. **Phase 2: Synthesis & TTS**
+   - Speech generated with `en-US-BrianNeural` voice (1,445 words).
+   - Word boundaries fetched successfully via the new chunked TTS downloader.
+   - Concept timings aligned and saved to `timing.toon`.
+3. **Phase 3: Rendering**
+   - Video rendered successfully (17,338 frames, ~9.6 minutes duration).
+   - Rendered using low concurrency limit (`concurrency=2`) and high timeout limit (`timeout=600000ms`) for maximum stability.
+4. **Phase 3.1: Thumbnail Generation**
+   - Thumbnail generated successfully with custom styling and saved to `thumbnail.png`.
+5. **Phase 3.5: Quality Control (QC)**
+   - Automatically approved due to the `--auto-approve` flag.
+6. **Phase 4: Distribution**
+   - Video uploaded successfully to YouTube.
+   - **Video ID:** `AzfuX_mDSoI`
+   - **Video URL:** [https://youtu.be/AzfuX_mDSoI](https://youtu.be/AzfuX_mDSoI)
+   - Auto-posted comment: *"Which of these 12 concepts do you find most interesting? Let us know below! Subscribe for more!"*
+   - Updated repository state pushed to GitHub under commit `f3d2856`.
+
+---
+
+## 🚀 Previous Execution (June 29, 2026 - Custom Finance Manual Run)
 
 The pipeline was executed manually using `--skip-ingestion --skip-synthesis --auto-approve` to generate a video on custom financial concepts:
 
