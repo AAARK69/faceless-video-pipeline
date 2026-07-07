@@ -154,7 +154,7 @@ function run() {
     const concurrency = Math.min(2, Math.max(1, Math.floor(cpuCount / 2)));
     
     // Execute remotion render using the local Node binary path
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=600000`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH node node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=600000`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {

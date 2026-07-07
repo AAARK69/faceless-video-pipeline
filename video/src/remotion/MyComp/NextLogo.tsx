@@ -59,14 +59,14 @@ export const NextLogo: React.FC<{
       <mask
         height="180"
         id="mask"
-        className="[mask-type:alpha]"
+        style={{ maskType: "alpha" }}
         width="180"
         x="0"
         y="0"
       >
         <circle cx="90" cy="90" fill="black" r="90"></circle>
       </mask>
-      <mask id="n-mask" className="[mask-type:alpha]">
+      <mask id="n-mask" style={{ maskType: "alpha" }}>
         <path d={nStroke} fill="black"></path>
       </mask>
       <g mask="url(#mask)">

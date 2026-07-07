@@ -44,7 +44,7 @@ function run() {
 
     // 4. Render the still using Remotion CLI
     const outputPath = path.join(videoDir, 'thumbnail.png');
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH npx remotion still Thumbnail "${outputPath}" --props="${propsPath}"`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH node node_modules/.bin/remotion still Thumbnail "${outputPath}" --props="${propsPath}"`;
     console.log(`[Phase 3.1 Thumbnail] Running: ${renderCmd}`);
 
     execSync(renderCmd, { cwd: videoDir, stdio: 'inherit' });
