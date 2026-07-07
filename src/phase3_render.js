@@ -134,8 +134,8 @@ function run() {
         topic: topicData.topic,
         items: items,
         audioUrl: "/voice.mp3",
-        bgmUrl: "/bgm.mp3",
-        sfxUrl: "/click.mp3",
+        bgmUrl: "",
+        sfxUrl: "",
         words: timingData.words
     };
     
@@ -150,11 +150,11 @@ function run() {
     // Determine dynamic concurrency based on CPU cores for maximum efficiency
     const os = require('os');
     const cpuCount = os.cpus().length || 4;
-    // Bound concurrency to 2 to prevent Puppeteer memory pressure / timeout crashes on high-core machines
-    const concurrency = Math.min(2, Math.max(1, Math.floor(cpuCount / 2)));
+    // Set concurrency to 1 to minimize memory footprint and prevent swap thrashing
+    const concurrency = 1;
     
-    // Execute remotion render using the local Node binary path
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH node node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=600000`;
+    // Execute remotion render using the local Node binary path with memory constraints and network bypasses (timeout extended to 30 mins)
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=1024 node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=1800000 --image-format=jpeg --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {

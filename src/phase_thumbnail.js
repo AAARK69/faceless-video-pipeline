@@ -44,7 +44,7 @@ function run() {
 
     // 4. Render the still using Remotion CLI
     const outputPath = path.join(videoDir, 'thumbnail.png');
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH node node_modules/.bin/remotion still Thumbnail "${outputPath}" --props="${propsPath}"`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=1024 node_modules/.bin/remotion still Thumbnail "${outputPath}" --props="${propsPath}" --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
     console.log(`[Phase 3.1 Thumbnail] Running: ${renderCmd}`);
 
     execSync(renderCmd, { cwd: videoDir, stdio: 'inherit' });
