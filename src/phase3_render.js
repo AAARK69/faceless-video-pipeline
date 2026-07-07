@@ -153,18 +153,29 @@ function run() {
     // Set concurrency to 1 to minimize memory footprint and prevent swap thrashing
     const concurrency = 1;
     
-    // Execute remotion render using the local Node binary path with memory constraints and network bypasses (timeout extended to 30 mins)
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=1024 node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=1800000 --image-format=jpeg --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
+    // Execute remotion render using the local Node binary path with memory constraints, network bypasses, and muted audio (timeout extended to 30 mins)
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=1024 node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=1800000 --image-format=jpeg --mute --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {
-        execSync(renderCmd, { 
-            cwd: path.join(rootDir, 'video'),
-            stdio: 'inherit' 
-        });
-        console.log(`[Phase 3 Render] Video rendered successfully: ${outputVideoPath}`);
+        execSync(renderCmd, { cwd: path.join(rootDir, 'video'), stdio: 'inherit' });
+        console.log('[Phase 3 Render] Remotion render execution completed (silent).');
+        
+        // Mux voice.mp3 audio into final_video.mp4 using ffmpeg
+        const finalAudioPath = path.join(rootDir, 'voice.mp3');
+        const tempMuxedPath = path.join(rootDir, 'final_video_muxed.mp4');
+        const muxCmd = `PATH=${rootDir}/node-env/bin:$PATH ffmpeg -y -i "${outputVideoPath}" -i "${finalAudioPath}" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest "${tempMuxedPath}"`;
+        console.log(`[Phase 3 Render] Muxing audio: ${muxCmd}`);
+        execSync(muxCmd, { cwd: rootDir, stdio: 'inherit' });
+        
+        if (fs.existsSync(tempMuxedPath)) {
+            fs.renameSync(tempMuxedPath, outputVideoPath);
+            console.log('[Phase 3 Render] Audio muxing completed successfully.');
+        } else {
+            throw new Error('Audio muxing completed but final_video_muxed.mp4 was not found!');
+        }
     } catch (err) {
-        console.error("[Phase 3 Render] Remotion render execution failed!", err);
+        console.error('[Phase 3 Render] Remotion render execution failed! Error:', err);
         throw err;
     }
 }

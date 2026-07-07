@@ -339,8 +339,8 @@
     }
   ],
   "audioUrl": "/voice.mp3",
-  "bgmUrl": "/bgm.mp3",
-  "sfxUrl": "/click.mp3",
+  "bgmUrl": "",
+  "sfxUrl": "",
   "words": [
     {
       "word": "Let",
