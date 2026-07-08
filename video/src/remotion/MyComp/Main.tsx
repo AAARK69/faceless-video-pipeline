@@ -504,8 +504,8 @@ export const Main: React.FC = () => {
   const items = props.items || [];
   const audioUrl = props.audioUrl || "";
   const words = props.words || [];
-  const bgmUrl = props.bgmUrl || "/bgm.mp3";
-  const sfxUrl = props.sfxUrl || "/click.mp3";
+  const bgmUrl = props.bgmUrl === undefined ? "/bgm.mp3" : props.bgmUrl;
+  const sfxUrl = props.sfxUrl === undefined ? "/click.mp3" : props.sfxUrl;
 
   // ---------------------------------------------------------
   // Determine Visual State: gallery | zoom | detail
