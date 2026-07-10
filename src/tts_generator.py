@@ -146,7 +146,7 @@ async def generate_speech_and_timings(text, output_file, voice="en-US-BrianNeura
         print("Processing combined voiceover through ffmpeg for broadcast quality...")
         try:
             ffmpeg_cmd = [
-                "ffmpeg", "-y", "-i", raw_output_file,
+                "ffmpeg", "-y", "-nostdin", "-i", raw_output_file,
                 "-ar", "44100", "-ac", "2",
                 "-filter:a", "volume=1.8,loudnorm=I=-16:LRA=11:TP=-1.5",
                 output_file
@@ -157,7 +157,7 @@ async def generate_speech_and_timings(text, output_file, voice="en-US-BrianNeura
             env = {**os.environ}
             env["PATH"] = f"{binDir}:{env.get('PATH', '')}"
             
-            subprocess.run(ffmpeg_cmd, env=env, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(ffmpeg_cmd, env=env, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.DEVNULL)
             print(f"Speech saved and normalized to {output_file}")
         except Exception as e:
             print(f"Ffmpeg post-processing failed, using raw output instead: {e}")

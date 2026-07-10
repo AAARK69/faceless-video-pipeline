@@ -154,19 +154,19 @@ function run() {
     const concurrency = 1;
     
     // Execute remotion render using the local Node binary path with memory constraints, network bypasses, and muted audio (timeout extended to 30 mins)
-    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=1024 node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=1800000 --image-format=jpeg --mute --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
+    const renderCmd = `PATH=${rootDir}/node-env/bin:$PATH REMOTION_TELEMETRY_DISABLED=1 NO_UPDATE_NOTIFIER=1 node --max-old-space-size=4096 node_modules/.bin/remotion render MyComp "${outputVideoPath}" --props="${inputsJsonPath}" --duration=${durationInFrames} --concurrency=${concurrency} --timeout=1800000 --image-format=jpeg --mute --browser-executable="node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell"`;
     console.log(`[Phase 3 Render] Running: ${renderCmd}`);
     
     try {
-        execSync(renderCmd, { cwd: path.join(rootDir, 'video'), stdio: 'inherit' });
+        execSync(renderCmd, { cwd: path.join(rootDir, 'video'), stdio: ['ignore', 'inherit', 'inherit'] });
         console.log('[Phase 3 Render] Remotion render execution completed (silent).');
         
         // Mux voice.mp3 audio into final_video.mp4 using ffmpeg
         const finalAudioPath = path.join(rootDir, 'voice.mp3');
         const tempMuxedPath = path.join(rootDir, 'final_video_muxed.mp4');
-        const muxCmd = `PATH=${rootDir}/node-env/bin:$PATH ffmpeg -y -i "${outputVideoPath}" -i "${finalAudioPath}" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest "${tempMuxedPath}"`;
+        const muxCmd = `PATH=${rootDir}/node-env/bin:$PATH ffmpeg -y -nostdin -i "${outputVideoPath}" -i "${finalAudioPath}" -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest "${tempMuxedPath}"`;
         console.log(`[Phase 3 Render] Muxing audio: ${muxCmd}`);
-        execSync(muxCmd, { cwd: rootDir, stdio: 'inherit' });
+        execSync(muxCmd, { cwd: rootDir, stdio: ['ignore', 'inherit', 'inherit'] });
         
         if (fs.existsSync(tempMuxedPath)) {
             fs.renameSync(tempMuxedPath, outputVideoPath);

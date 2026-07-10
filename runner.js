@@ -436,7 +436,7 @@ async function main() {
             const phase1Env = { ...process.env, PATH: `${binDir}:${process.env.PATH}` };
             delete phase1Env.GEMINI_API_KEY;
             phase1Env.SKIP_DYNAMIC_INGESTION = 'true';
-            execSync(ingestionCmd, { stdio: 'inherit', cwd: rootDir, env: phase1Env });
+            execSync(ingestionCmd, { stdio: ['ignore', 'inherit', 'inherit'], cwd: rootDir, env: phase1Env });
         }
         
         const propertyToonPath = path.join(rootDir, 'property_data.toon');
@@ -580,7 +580,7 @@ async function main() {
         // Run TTS Generator with the file path
         const ttsCmd = `${envPath} python3 -u src/tts_generator.py "${tempScriptPath}"`;
         console.log(`Running TTS: ${ttsCmd}`);
-        execSync(ttsCmd, { stdio: 'inherit', cwd: rootDir });
+        execSync(ttsCmd, { stdio: ['ignore', 'inherit', 'inherit'], cwd: rootDir });
         
         // Verify TTS Outputs
         if (!fs.existsSync(path.join(rootDir, 'voice.mp3')) || !fs.existsSync(path.join(rootDir, 'timing.toon'))) {
@@ -623,7 +623,7 @@ async function main() {
         console.log("\n--- PHASE 3: RENDERING ---");
         const renderCmd = `${envPath} node src/phase3_render.js`;
         console.log(`Running Renderer: ${renderCmd}`);
-        execSync(renderCmd, { stdio: 'inherit', cwd: rootDir });
+        execSync(renderCmd, { stdio: ['ignore', 'inherit', 'inherit'], cwd: rootDir });
         
         if (!fs.existsSync(path.join(rootDir, 'final_video.mp4'))) {
             throw new Error("Render phase completed but final_video.mp4 was not found.");
@@ -634,7 +634,7 @@ async function main() {
         try {
             const thumbCmd = `${envPath} node src/phase_thumbnail.js`;
             console.log(`Running Thumbnail Generator: ${thumbCmd}`);
-            execSync(thumbCmd, { stdio: 'inherit', cwd: rootDir });
+            execSync(thumbCmd, { stdio: ['ignore', 'inherit', 'inherit'], cwd: rootDir });
             if (fs.existsSync(path.join(rootDir, 'thumbnail.png'))) {
                 console.log('[Phase 3.1] Thumbnail generated successfully.');
             } else {
@@ -684,7 +684,7 @@ async function main() {
             console.log("\n--- PHASE 4: DISTRIBUTION ---");
             const distCmd = `python3 src/phase4_distribution.py`;
             console.log(`Running Distribution: ${distCmd}`);
-            execSync(distCmd, { stdio: 'inherit', cwd: rootDir });
+            execSync(distCmd, { stdio: ['ignore', 'inherit', 'inherit'], cwd: rootDir });
         }
         
         console.log("\n================================================================================");
